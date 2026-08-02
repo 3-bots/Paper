@@ -1,0 +1,32 @@
+name: Build DaysDisplay Plugin
+
+on:
+  push:
+    paths:
+      - 'days-display-plugin/**'
+      - '.github/workflows/days-display-plugin.yml'
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: days-display-plugin
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Build
+        run: ./gradlew build --stacktrace
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v7
+        with:
+          name: DaysDisplay
+          path: days-display-plugin/build/libs/DaysDisplay-*.jar
