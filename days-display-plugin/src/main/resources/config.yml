@@ -6,9 +6,10 @@
 #   SCOREBOARD - a line in the sidebar scoreboard on the right of the screen
 #
 # Note: server plugins cannot draw into Bedrock/Java's native coordinate
-# overlay itself (that's rendered client-side), so ACTIONBAR is the closest
-# always-visible equivalent placed near the top of the player's view.
-display-mode: ACTIONBAR
+# overlay itself (that's rendered client-side and not exposed to plugins),
+# so there's no way to place this literally underneath it. SCOREBOARD is
+# the closest persistent, top-of-screen alternative (top-right corner).
+display-mode: SCOREBOARD
 
 # How often (in ticks, 20 ticks = 1 second) the display refreshes.
 update-interval-ticks: 20
