@@ -1,0 +1,28 @@
+# DaysDisplay configuration
+#
+# display-mode controls where the day counter is shown:
+#   ACTIONBAR  - text just above the hotbar, refreshed continuously (default)
+#   BOSSBAR    - a bar across the top-center of the screen
+#   SCOREBOARD - a line in the sidebar scoreboard on the right of the screen
+#
+# Note: server plugins cannot draw into Bedrock/Java's native coordinate
+# overlay itself (that's rendered client-side), so ACTIONBAR is the closest
+# always-visible equivalent placed near the top of the player's view.
+display-mode: ACTIONBAR
+
+# How often (in ticks, 20 ticks = 1 second) the display refreshes.
+update-interval-ticks: 20
+
+# %day% is replaced with the computed day number. '&' codes are color codes.
+format: "&eDay &f%day%"
+
+# Added to the raw computed day (world time 0 = day 0 by default, so this is
+# usually 1 to make the very first day "Day 1" instead of "Day 0").
+day-offset: 1
+
+# Boss bar color, only used when display-mode is BOSSBAR.
+# One of: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+boss-bar-color: YELLOW
+
+# Scoreboard sidebar title, only used when display-mode is SCOREBOARD.
+scoreboard-title: "&6&lServer Info"

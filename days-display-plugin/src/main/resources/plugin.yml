@@ -1,0 +1,20 @@
+name: DaysDisplay
+version: '1.0.0'
+main: com.daysdisplay.plugin.DaysDisplayPlugin
+api-version: '1.20'
+author: DaysDisplay
+description: Displays the current in-game day counter on players' HUD (action bar, boss bar, or scoreboard).
+
+commands:
+  daysdisplay:
+    description: Manage the DaysDisplay plugin
+    usage: /<command> <reload|toggle>
+    aliases: [days, dd]
+
+permissions:
+  daysdisplay.toggle:
+    description: Allows toggling the days display on/off for yourself
+    default: true
+  daysdisplay.reload:
+    description: Allows reloading the DaysDisplay configuration
+    default: op
