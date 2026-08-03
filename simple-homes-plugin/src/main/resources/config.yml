@@ -1,0 +1,69 @@
+# SimpleHomes Configuration
+
+settings:
+  teleport_delay: 3 # Delay in seconds before teleporting
+  max_homes: 4       # Maximum number of homes a player can have in total (including the free one)
+  free_homes: 1      # How many of those homes are free (counted in the order they're set, "default" first)
+
+# Resource cost to set your Nth home, for N greater than free_homes above.
+# Each entry is a list of items (all are required together) taken from the
+# player's inventory when that home slot is set. Slots beyond the highest
+# numbered entry here reuse the last defined cost.
+costs:
+  2:
+    - material: DIAMOND_BLOCK
+      amount: 1
+  3:
+    - material: NETHERITE_BLOCK
+      amount: 1
+  4:
+    - material: NETHER_STAR
+      amount: 1
+    - material: DIAMOND_BLOCK
+      amount: 1
+    - material: NETHERITE_BLOCK
+      amount: 1
+
+messages:
+  prefix: '&7[&bSimpleHomes&7]' # Prefix for all plugin messages
+
+  # General messages
+  home_set: '&fDefault home set to your current location.'
+  teleported: '&fTeleported home!'
+  teleporting_already: '&fTeleportation already in progress.'
+  teleport_cancelled_move: '&fTeleportation cancelled due to movement.'
+  max_homes_reached: '&fYou have reached the maximum number of custom homes (%s).'
+  no_homes_set: '&fNo homes set yet.'
+  max_homes_set: '&fMaximum number of homes set to %s.'
+  home_name_exists: '&fA home with the name ''%s'' already exists.'
+
+  # Default home messages
+  default_home_set: '&fDefault home set to your current location.'
+  default_home_deleted: '&fDefault home deleted.'
+  default_home_exists: '&fYou already have a default home set. Use /delhome to remove it first.'
+
+  # Custom home messages
+  custom_home_set: '&fCustom home ''%s'' set to your current location.'
+  custom_home_deleted: '&fCustom home ''%s'' deleted.'
+  home_not_found: '&fHome ''%s'' not found.'
+
+  # Command usage messages
+  usage_sethome: '&fUsage: /sethome [homename]'
+  usage_delhome: '&fUsage: /delhome [homename]'
+
+  # Home list message
+  homes_list_title: '&f--- Your Homes ---'
+  default_home: '&fDefault Home'
+  custom_homes: '&fCustom Homes:'
+
+  # Teleport countdown message
+  teleporting: '&fTeleporting! Do not move!'
+  teleporting_countdown: '&fTeleporting in %s..'
+
+  # Resource cost messages
+  reserved_name: '&cThe name ''default'' is reserved, use /sethome with no name for your default home.'
+  insufficient_resources: '&fYou need %s to set this home.'
+  home_cost_charged: '&fPaid %s to set this home.'
+  no_permission: '&cYou do not have permission to do that.'
+  player_only: '&cOnly players can use this command.'
+  reload_success: '&aSimpleHomes configuration reloaded.'
