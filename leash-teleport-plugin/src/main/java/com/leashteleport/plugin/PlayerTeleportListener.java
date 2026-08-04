@@ -1,6 +1,5 @@
 package com.leashteleport.plugin;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -33,13 +32,12 @@ public final class PlayerTeleportListener implements Listener {
             return;
         }
 
-        Location destination = to.clone();
-        Location origin = from.clone();
-
-        // Run next tick so the player's own teleport has already completed
-        // (keeps the leashed entities' relocation distance short so vanilla
-        // doesn't snap the leash before we move them).
-        Bukkit.getScheduler().runTask(plugin, () -> bringLeashedEntities(player, origin, destination));
+        // Move the leashed entities right now, synchronously, while the
+        // player's own teleport is still pending (Paper fires this event
+        // before actually relocating the player). Waiting even one tick is
+        // too late: vanilla's leash-distance check runs on the next tick
+        // and snaps the lead once the player is far away but the pet isn't.
+        bringLeashedEntities(player, from.clone(), to.clone());
     }
 
     private void bringLeashedEntities(Player player, Location origin, Location destination) {
