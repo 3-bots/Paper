@@ -10,17 +10,23 @@ import java.util.Map;
 
 public final class LeashTeleportPlugin extends JavaPlugin {
 
-    private double searchRadius = 15.0;
+    private double teleportDetectBlocks = 20.0;
+    private int detectWindowSeconds = 5;
     private double spreadRadius = 2.0;
     private boolean notify = true;
     private final Map<String, String> messages = new HashMap<>();
+
+    private PlayerPositionTracker tracker;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         loadSettings();
 
-        getServer().getPluginManager().registerEvents(new PlayerTeleportListener(this), this);
+        tracker = new PlayerPositionTracker(this);
+        tracker.start();
+
+        getServer().getPluginManager().registerEvents(new LeashRescueListener(this, tracker), this);
 
         var command = getCommand("leashteleport");
         if (command != null) {
@@ -28,11 +34,19 @@ public final class LeashTeleportPlugin extends JavaPlugin {
         }
     }
 
+    @Override
+    public void onDisable() {
+        if (tracker != null) {
+            tracker.stop();
+        }
+    }
+
     public void loadSettings() {
         reloadConfig();
         var config = getConfig();
 
-        searchRadius = config.getDouble("settings.search-radius", 15.0);
+        teleportDetectBlocks = config.getDouble("settings.teleport-detect-blocks", 20.0);
+        detectWindowSeconds = config.getInt("settings.detect-window-seconds", 5);
         spreadRadius = config.getDouble("settings.spread-radius", 2.0);
         notify = config.getBoolean("settings.notify", true);
 
@@ -52,8 +66,12 @@ public final class LeashTeleportPlugin extends JavaPlugin {
         return ChatColor.translateAlternateColorCodes('&', prefix + " " + formatted);
     }
 
-    public double getSearchRadius() {
-        return searchRadius;
+    public double getTeleportDetectBlocks() {
+        return teleportDetectBlocks;
+    }
+
+    public int getDetectWindowSeconds() {
+        return detectWindowSeconds;
     }
 
     public double getSpreadRadius() {

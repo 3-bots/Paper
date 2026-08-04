@@ -1,25 +1,32 @@
 # LeashTeleport Configuration
 #
-# Whenever a player teleports (any cause - commands like /home from other
-# plugins, plugin.teleport() calls, etc.), any living entity leashed to that
-# player is teleported along with them, including entities riding in a boat
-# or other vehicle at the time.
+# Rather than trying to move leashed entities in the same instant as a
+# teleport (which isn't reliable across every plugin/teleport path), this
+# plugin watches for the leash actually snapping (EntityUnleashEvent with
+# reason DISTANCE) and then checks whether the holder's position jumped
+# a lot recently. If it did, that's almost certainly a teleport (e.g. a
+# /home command from another plugin) rather than the pet just falling
+# behind - so the entity (and its boat/vehicle, if any) is teleported to
+# the player and re-leashed.
 
 settings:
-  # How far around the player (in blocks) to look for leashed entities
-  # before they teleport. Vanilla leashes break past ~10 blocks, so this
-  # should comfortably cover normal leash range.
-  search-radius: 15.0
+  # If the player moved more than this many blocks (or changed world)
+  # compared to their position from detect-window-seconds ago, a leash
+  # snap is treated as caused by a teleport and the entity is rescued.
+  teleport-detect-blocks: 20.0
 
-  # How far apart (in blocks) to space out multiple brought-along entities
-  # at the destination, so they don't all stack on the same block.
+  # How far back (in seconds) to look at the player's position history.
+  detect-window-seconds: 5
+
+  # How far apart (in blocks) to space out multiple rescued entities at
+  # the player's location, so they don't all stack on the same block.
   spread-radius: 2.0
 
-  # Whether to tell the player how many entities were brought along.
+  # Whether to tell the player how many entities were brought back.
   notify: true
 
 messages:
   prefix: '&7[&bLeashTeleport&7]'
-  brought-along: '&fBrought %s leashed entity(ies) with you!'
+  brought-along: '&fBrought %s leashed entity(ies) back to you!'
   reload-success: '&aLeashTeleport configuration reloaded.'
   no-permission: '&cYou do not have permission to do that.'

@@ -1,32 +1,37 @@
 # LeashTeleport
 
-A Paper plugin for Minecraft 1.20.2 that brings entities you have leashed
-along whenever you teleport — including entities riding in a boat (or any
-other vehicle) at the time. Works with any teleport, so it applies to
-`/home` from a separate homes plugin, warps, `/tp`, etc. — no integration
-needed with whatever plugin actually performs the teleport.
+A Paper plugin for Minecraft 1.20.2 that rescues entities you have leashed
+(including ones riding in a boat or other vehicle) when a teleport — from
+`/home` in another plugin, a warp, `/tp`, etc. — snaps the leash.
 
 ## How it works
 
-On every `PlayerTeleportEvent`, it looks within `search-radius` blocks of
-where you teleported *from* for any living entity leashed to you. For each
-one found:
+Trying to move leashed entities in the exact instant of a teleport turned
+out to be unreliable across different plugins and long-distance teleports.
+Instead, this plugin:
 
-- If it's riding a vehicle (e.g. a boat), the vehicle and all its passengers
-  are moved to your destination together, then re-mounted.
-- Otherwise the entity is teleported directly.
-- The leash is then re-attached to you at the destination.
+1. Tracks a short position history (last ~12 seconds) for every online
+   player.
+2. Listens for `EntityUnleashEvent` with reason `DISTANCE` (the leash
+   actually snapping because the holder got too far away).
+3. When that happens, compares the holder's current position to their
+   position from `detect-window-seconds` ago. If they moved more than
+   `teleport-detect-blocks`, or changed world, that's treated as a
+   teleport rather than the pet simply falling behind.
+4. The entity (and its vehicle + any other passengers, if it was riding
+   one) is teleported to the player's current location and re-leashed.
 
-Multiple brought-along entities are spread out slightly (`spread-radius`) so
-they don't stack on the same block.
+A normal leash break (the pet got stuck, fell behind on foot, etc.) is left
+alone — the lead drops as vanilla intends.
 
 ## Configuration (`config.yml`)
 
 | Option | Description |
 | --- | --- |
-| `settings.search-radius` | How far to look for leashed entities before teleporting (default 15 blocks) |
-| `settings.spread-radius` | Spacing between multiple brought-along entities at the destination |
-| `settings.notify` | Whether to message the player how many entities were brought along |
+| `settings.teleport-detect-blocks` | Distance jump (blocks) that counts as a teleport (default 20) |
+| `settings.detect-window-seconds` | How far back to compare the player's position (default 5) |
+| `settings.spread-radius` | Spacing between multiple rescued entities at the player's location |
+| `settings.notify` | Whether to message the player when entities are brought back |
 
 ## Commands
 
