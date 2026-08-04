@@ -69,6 +69,13 @@ public final class PlayerTeleportListener implements Listener {
             Entity vehicle = living.getVehicle();
             Location dest = offset(destination, index++, plugin.getSpreadRadius());
 
+            // Regular (non-player) entities don't reliably force-load their
+            // destination chunk the way a player teleport does. Over long
+            // distances the target chunk is often never loaded, and
+            // Entity#teleport() then just silently returns false. Force the
+            // chunk to load first so the teleport actually succeeds.
+            dest.getChunk();
+
             if (vehicle != null) {
                 if (!handledVehicles.add(vehicle)) {
                     continue;
@@ -77,16 +84,22 @@ public final class PlayerTeleportListener implements Listener {
                 for (Entity passenger : passengers) {
                     passenger.leaveVehicle();
                 }
-                vehicle.teleport(dest);
+                if (!vehicle.teleport(dest)) {
+                    plugin.getLogger().warning("Failed to teleport vehicle " + vehicle.getType() + " for " + player.getName());
+                }
                 for (Entity passenger : passengers) {
-                    passenger.teleport(dest);
+                    if (!passenger.teleport(dest)) {
+                        plugin.getLogger().warning("Failed to teleport passenger " + passenger.getType() + " for " + player.getName());
+                    }
                     vehicle.addPassenger(passenger);
                     if (passenger instanceof LivingEntity passengerLiving && leashedToPlayer.contains(passengerLiving)) {
                         passengerLiving.setLeashHolder(player);
                     }
                 }
             } else {
-                living.teleport(dest);
+                if (!living.teleport(dest)) {
+                    plugin.getLogger().warning("Failed to teleport " + living.getType() + " for " + player.getName());
+                }
                 living.setLeashHolder(player);
             }
             moved++;
