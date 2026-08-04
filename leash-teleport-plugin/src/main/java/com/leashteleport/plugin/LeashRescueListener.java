@@ -1,15 +1,21 @@
 package com.leashteleport.plugin;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityUnleashEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
@@ -71,6 +77,45 @@ public final class LeashRescueListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onLeash(PlayerLeashEntityEvent event) {
         leashOwners.put(event.getEntity().getUniqueId(), event.getPlayer().getUniqueId());
+    }
+
+    /**
+     * Vanilla Minecraft does not allow leashing villagers at all (which is
+     * why boats/minecarts are the usual way to move them) - right-clicking
+     * one with a lead just opens trades and no PlayerLeashEntityEvent ever
+     * fires. This adds that support: holding a lead and right-clicking an
+     * unleashed villager leashes it instead of opening trades.
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onInteractVillager(PlayerInteractEntityEvent event) {
+        if (event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
+        if (!(event.getRightClicked() instanceof Villager villager) || villager.isLeashed()) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+        EquipmentSlot leadSlot = null;
+        if (player.getInventory().getItemInMainHand().getType() == Material.LEAD) {
+            leadSlot = EquipmentSlot.HAND;
+        } else if (player.getInventory().getItemInOffHand().getType() == Material.LEAD) {
+            leadSlot = EquipmentSlot.OFF_HAND;
+        }
+        if (leadSlot == null) {
+            return;
+        }
+
+        event.setCancelled(true);
+        villager.setLeashHolder(player);
+        leashOwners.put(villager.getUniqueId(), player.getUniqueId());
+
+        if (player.getGameMode() != GameMode.CREATIVE) {
+            ItemStack lead = leadSlot == EquipmentSlot.HAND
+                    ? player.getInventory().getItemInMainHand()
+                    : player.getInventory().getItemInOffHand();
+            lead.setAmount(lead.getAmount() - 1);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

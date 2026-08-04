@@ -1,8 +1,12 @@
 # LeashTeleport
 
-A Paper plugin for Minecraft 1.20.2 that rescues entities you have leashed
-(including ones riding in a boat or other vehicle) when a teleport — from
-`/home` in another plugin, a warp, `/tp`, etc. — snaps the leash.
+A Paper plugin for Minecraft 1.20.2 that:
+
+- Lets you leash villagers, which vanilla doesn't normally allow (holding a
+  lead and right-clicking a villager leashes it instead of opening trades).
+- Rescues entities you have leashed (including ones riding in a boat or
+  other vehicle) when a teleport — from `/home` in another plugin, a warp,
+  `/tp`, etc. — snaps the leash.
 
 ## How it works
 
