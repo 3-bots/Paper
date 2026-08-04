@@ -86,7 +86,7 @@ public final class LeashRescueListener implements Listener {
      * fires. This adds that support: holding a lead and right-clicking an
      * unleashed villager leashes it instead of opening trades.
      */
-    @EventHandler(ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onInteractVillager(PlayerInteractEntityEvent event) {
         if (event.getHand() != EquipmentSlot.HAND) {
             return;

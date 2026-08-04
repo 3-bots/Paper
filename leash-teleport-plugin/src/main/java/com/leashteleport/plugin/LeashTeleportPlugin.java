@@ -35,6 +35,8 @@ public final class LeashTeleportPlugin extends JavaPlugin {
         if (command != null) {
             command.setExecutor(new LeashTeleportCommand(this));
         }
+
+        getLogger().info("LeashTeleport " + getDescription().getVersion() + " enabled - villager leashing + teleport rescue active.");
     }
 
     @Override
