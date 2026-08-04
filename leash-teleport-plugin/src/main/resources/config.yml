@@ -1,0 +1,25 @@
+# LeashTeleport Configuration
+#
+# Whenever a player teleports (any cause - commands like /home from other
+# plugins, plugin.teleport() calls, etc.), any living entity leashed to that
+# player is teleported along with them, including entities riding in a boat
+# or other vehicle at the time.
+
+settings:
+  # How far around the player (in blocks) to look for leashed entities
+  # before they teleport. Vanilla leashes break past ~10 blocks, so this
+  # should comfortably cover normal leash range.
+  search-radius: 15.0
+
+  # How far apart (in blocks) to space out multiple brought-along entities
+  # at the destination, so they don't all stack on the same block.
+  spread-radius: 2.0
+
+  # Whether to tell the player how many entities were brought along.
+  notify: true
+
+messages:
+  prefix: '&7[&bLeashTeleport&7]'
+  brought-along: '&fBrought %s leashed entity(ies) with you!'
+  reload-success: '&aLeashTeleport configuration reloaded.'
+  no-permission: '&cYou do not have permission to do that.'

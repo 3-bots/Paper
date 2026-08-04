@@ -1,0 +1,17 @@
+name: LeashTeleport
+version: '1.0.0'
+main: com.leashteleport.plugin.LeashTeleportPlugin
+api-version: '1.20'
+author: LeashTeleport
+description: Brings entities you have leashed (including ones riding in a boat) along whenever you teleport.
+
+commands:
+  leashteleport:
+    description: Manage the LeashTeleport plugin
+    usage: /<command> reload
+    aliases: [ltp]
+
+permissions:
+  leashteleport.reload:
+    description: Allows reloading the LeashTeleport configuration
+    default: op
