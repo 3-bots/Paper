@@ -17,6 +17,7 @@ public final class LeashTeleportPlugin extends JavaPlugin {
     private final Map<String, String> messages = new HashMap<>();
 
     private PlayerPositionTracker tracker;
+    private LeashRescueListener rescueListener;
 
     @Override
     public void onEnable() {
@@ -26,7 +27,9 @@ public final class LeashTeleportPlugin extends JavaPlugin {
         tracker = new PlayerPositionTracker(this);
         tracker.start();
 
-        getServer().getPluginManager().registerEvents(new LeashRescueListener(this, tracker), this);
+        rescueListener = new LeashRescueListener(this, tracker);
+        getServer().getPluginManager().registerEvents(rescueListener, this);
+        rescueListener.start();
 
         var command = getCommand("leashteleport");
         if (command != null) {
@@ -38,6 +41,9 @@ public final class LeashTeleportPlugin extends JavaPlugin {
     public void onDisable() {
         if (tracker != null) {
             tracker.stop();
+        }
+        if (rescueListener != null) {
+            rescueListener.stop();
         }
     }
 

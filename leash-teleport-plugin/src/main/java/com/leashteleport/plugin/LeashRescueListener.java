@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityUnleashEvent;
 import org.bukkit.event.entity.PlayerLeashEntityEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,13 +21,51 @@ import java.util.UUID;
 
 public final class LeashRescueListener implements Listener {
 
+    private static final double SCAN_RADIUS = 30.0;
+
     private final LeashTeleportPlugin plugin;
     private final PlayerPositionTracker tracker;
     private final Map<UUID, UUID> leashOwners = new HashMap<>();
+    private BukkitTask scanTask;
 
     public LeashRescueListener(LeashTeleportPlugin plugin, PlayerPositionTracker tracker) {
         this.plugin = plugin;
         this.tracker = tracker;
+    }
+
+    /**
+     * PlayerLeashEntityEvent only tells us about leashes formed after this
+     * plugin started. Anything leashed earlier (a previous session, before
+     * a plugin update/restart) would never be in {@link #leashOwners} and
+     * would silently fail to be rescued. This periodically reconciles the
+     * map against actual entity leash state so it self-heals regardless of
+     * when the leash was formed.
+     */
+    public void start() {
+        scanTask = plugin.getServer().getScheduler().runTaskTimer(plugin, this::scanForLeashedEntities, 0L, 20L);
+    }
+
+    public void stop() {
+        if (scanTask != null) {
+            scanTask.cancel();
+            scanTask = null;
+        }
+    }
+
+    private void scanForLeashedEntities() {
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            for (Entity entity : player.getNearbyEntities(SCAN_RADIUS, SCAN_RADIUS, SCAN_RADIUS)) {
+                if (entity instanceof LivingEntity living && living.isLeashed()) {
+                    try {
+                        if (player.equals(living.getLeashHolder())) {
+                            leashOwners.put(living.getUniqueId(), player.getUniqueId());
+                        }
+                    } catch (IllegalStateException ignored) {
+                        // Not actually leashed anymore by the time we asked; skip it.
+                    }
+                }
+            }
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
