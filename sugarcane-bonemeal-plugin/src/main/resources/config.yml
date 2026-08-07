@@ -1,0 +1,13 @@
+# SugarCaneBonemeal Configuration
+#
+# Vanilla dispensers loaded with bone meal will fertilize crops like wheat
+# or bamboo when facing them, but sugar cane isn't supported at all - the
+# bone meal just gets ejected as a dropped item. This plugin makes a
+# dispenser facing a sugar cane block grow it by one, up to max-height.
+
+settings:
+  # Matches vanilla sugar cane's natural max growth height.
+  max-height: 3
+
+  # Whether to play the bone meal particle + sound effect on growth.
+  play-effects: true
