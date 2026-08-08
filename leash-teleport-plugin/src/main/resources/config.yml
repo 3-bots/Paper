@@ -28,5 +28,6 @@ settings:
 messages:
   prefix: '&7[&bLeashTeleport&7]'
   brought-along: '&fBrought %s leashed entity(ies) back to you!'
+  brought-mount: '&fBrought your mount with you!'
   reload-success: '&aLeashTeleport configuration reloaded.'
   no-permission: '&cYou do not have permission to do that.'

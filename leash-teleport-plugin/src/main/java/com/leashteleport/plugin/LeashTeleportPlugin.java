@@ -31,12 +31,14 @@ public final class LeashTeleportPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(rescueListener, this);
         rescueListener.start();
 
+        getServer().getPluginManager().registerEvents(new VehicleTeleportListener(this), this);
+
         var command = getCommand("leashteleport");
         if (command != null) {
             command.setExecutor(new LeashTeleportCommand(this));
         }
 
-        getLogger().info("LeashTeleport " + getDescription().getVersion() + " enabled - villager leashing + teleport rescue active.");
+        getLogger().info("LeashTeleport " + getDescription().getVersion() + " enabled - villager leashing, teleport rescue, and mount teleport active.");
     }
 
     @Override

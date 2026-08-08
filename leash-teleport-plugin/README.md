@@ -7,6 +7,9 @@ A Paper plugin for Minecraft 1.20.2 that:
 - Rescues entities you have leashed (including ones riding in a boat or
   other vehicle) when a teleport — from `/home` in another plugin, a warp,
   `/tp`, etc. — snaps the leash.
+- Brings along whatever you're riding (a horse, boat, etc.) when you
+  teleport, instead of vanilla's default of dismounting you and leaving it
+  behind.
 
 ## How it works
 
