@@ -46,6 +46,22 @@ simulation of the exact vanilla algorithm.
 | `settings.variance-fraction` | Spread shown around the averaged breeding prediction |
 | `ranges.*` | Vanilla min/max for health, speed, and jump strength |
 
+## Custom icon
+
+The tool has a custom horseshoe + magnifying glass icon instead of a plain
+stick, via `resourcepack/` in this directory (a `CustomModelData` of `1001`
+on the item, with a resource pack override on `item/stick` pointing at a
+new model/texture). This only shows up for players if the resource pack is
+actually applied - it's a separate file from the plugin jar:
+
+1. Zip the contents of `resourcepack/` (`pack.mcmeta` and `assets/` at the
+   zip root, not nested in a subfolder).
+2. Upload that zip in Minehut's server settings under **Resource Pack**, or
+   host it and set `resource-pack` / `resource-pack-sha1` in
+   `server.properties` if not on Minehut.
+3. Without the pack applied, the tool still works fine - it just looks like
+   a plain stick.
+
 ## Commands
 
 - `/horseinspector give` (permission `horseinspector.give`, default: op)

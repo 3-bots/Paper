@@ -13,6 +13,9 @@ import java.util.List;
 
 public final class InspectorTool {
 
+    /** Must match the custom_model_data predicate in the resource pack's models/item/stick.json override. */
+    public static final int CUSTOM_MODEL_DATA = 1001;
+
     private final NamespacedKey key;
 
     public InspectorTool(HorseInspectorPlugin plugin) {
@@ -29,6 +32,7 @@ public final class InspectorTool {
                 ChatColor.GRAY + "Shift+right-click a saddled horse to remove its saddle"
         ));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.setCustomModelData(CUSTOM_MODEL_DATA);
         meta.getPersistentDataContainer().set(key, PersistentDataType.BYTE, (byte) 1);
         item.setItemMeta(meta);
         return item;
