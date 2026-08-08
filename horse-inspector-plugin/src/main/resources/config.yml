@@ -1,0 +1,32 @@
+# HorseInspector Configuration
+
+settings:
+  # Craft the tool from 4 gold nuggets + 1 stick (shape: G G / _S_ / G G).
+  recipe-enabled: true
+
+  # How long (seconds) a horse you inspect stays "selected" for a breeding
+  # comparison against the next horse you inspect with the tool.
+  selection-timeout-seconds: 60
+
+  # Breeding prediction spread: vanilla has a ~10% chance to reroll a stat
+  # entirely at random instead of averaging the parents, and even the
+  # averaged 90% case has some random variance added. This isn't an exact
+  # replica of that RNG - it shows the averaged value plus a +/- range,
+  # sized as this fraction of the stat's total possible span.
+  variance-fraction: 0.15
+
+# Vanilla's min/max range for each stat (used for the jump-height estimate
+# and the breeding variance range). These match regular Horse values.
+ranges:
+  health:
+    min: 15.0
+    max: 30.0
+  speed:
+    min: 0.1125
+    max: 0.3375
+  jump:
+    min: 0.4
+    max: 1.0
+
+messages:
+  prefix: '&7[&6HorseInspector&7]'

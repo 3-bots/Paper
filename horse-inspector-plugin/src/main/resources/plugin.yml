@@ -1,0 +1,20 @@
+name: HorseInspector
+version: '1.0.0'
+main: com.horseinspector.plugin.HorseInspectorPlugin
+api-version: '1.20'
+author: HorseInspector
+description: A craftable tool to inspect horse stats, predict breeding outcomes, and pull saddles off horses.
+
+commands:
+  horseinspector:
+    description: Manage the HorseInspector plugin
+    usage: /<command> <give|reload>
+    aliases: [hinspect]
+
+permissions:
+  horseinspector.give:
+    description: Allows giving yourself the Horse Inspector tool
+    default: op
+  horseinspector.reload:
+    description: Allows reloading the HorseInspector configuration
+    default: op
