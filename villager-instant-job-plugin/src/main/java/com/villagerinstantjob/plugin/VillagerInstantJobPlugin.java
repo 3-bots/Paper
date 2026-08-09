@@ -6,11 +6,14 @@ import org.bukkit.scheduler.BukkitTask;
 
 public final class VillagerInstantJobPlugin extends JavaPlugin {
 
+    private static final long PERSISTENCE_INTERVAL_TICKS = 20L;
+
     private double searchRadius = 16.0;
     private int scanBlockRadius = 8;
     private long scanIntervalTicks = 100L;
 
     private BukkitTask scanTask;
+    private BukkitTask persistenceTask;
 
     @Override
     public void onEnable() {
@@ -26,11 +29,13 @@ public final class VillagerInstantJobPlugin extends JavaPlugin {
         }
 
         startScanTask();
+        startPersistenceTask();
     }
 
     @Override
     public void onDisable() {
         stopScanTask();
+        stopPersistenceTask();
     }
 
     public void loadSettings() {
@@ -55,6 +60,18 @@ public final class VillagerInstantJobPlugin extends JavaPlugin {
         if (scanTask != null) {
             scanTask.cancel();
             scanTask = null;
+        }
+    }
+
+    private void startPersistenceTask() {
+        persistenceTask = getServer().getScheduler().runTaskTimer(this, new JobPersistenceTask(this),
+                PERSISTENCE_INTERVAL_TICKS, PERSISTENCE_INTERVAL_TICKS);
+    }
+
+    private void stopPersistenceTask() {
+        if (persistenceTask != null) {
+            persistenceTask.cancel();
+            persistenceTask = null;
         }
     }
 

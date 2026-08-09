@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.villagerinstantjob"
-version = "1.1.3"
+version = "1.1.4"
 
 java {
     toolchain {
