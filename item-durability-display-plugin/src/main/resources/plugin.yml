@@ -1,0 +1,17 @@
+name: ItemDurabilityDisplay
+version: '1.0.0'
+main: com.itemdurabilitydisplay.plugin.ItemDurabilityDisplayPlugin
+api-version: '26.2'
+author: ItemDurabilityDisplay
+description: Adds an exact durability tooltip line to damageable items, so Bedrock players (and Java players) can see how much durability is left when hovering over an item.
+
+commands:
+  itemdurabilitydisplay:
+    description: Manage the ItemDurabilityDisplay plugin
+    usage: /<command> reload
+    aliases: [durability]
+
+permissions:
+  itemdurabilitydisplay.reload:
+    description: Allows reloading the ItemDurabilityDisplay configuration
+    default: op

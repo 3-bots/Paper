@@ -1,0 +1,3 @@
+settings:
+  # How often (in ticks, 20 = 1 second) to refresh durability tooltips across all online players' inventories.
+  update-interval-ticks: 10
