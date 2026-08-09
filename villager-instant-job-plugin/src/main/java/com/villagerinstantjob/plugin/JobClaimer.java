@@ -2,6 +2,7 @@ package com.villagerinstantjob.plugin;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -11,6 +12,9 @@ import org.bukkit.entity.memory.MemoryKey;
 import java.util.Map;
 
 public final class JobClaimer {
+
+    /** Ticks after the initial claim to reassert it, in case vanilla's own AI reverts it. */
+    private static final long[] REASSERT_DELAYS_TICKS = { 1L, 5L, 20L, 40L };
 
     public static final Map<Material, Villager.Profession> PROFESSION_BY_BLOCK = Map.ofEntries(
             Map.entry(Material.BLAST_FURNACE, Villager.Profession.ARMORER),
@@ -38,7 +42,7 @@ public final class JobClaimer {
     }
 
     /** Finds the nearest jobless villager around a specific block and assigns it that job. */
-    public static boolean claimForBlock(Block block, double entityRadius) {
+    public static boolean claimForBlock(VillagerInstantJobPlugin plugin, Block block, double entityRadius) {
         Villager.Profession profession = PROFESSION_BY_BLOCK.get(block.getType());
         if (profession == null) {
             return false;
@@ -62,12 +66,12 @@ public final class JobClaimer {
             return false;
         }
 
-        assign(closest, profession, block.getLocation());
+        assign(plugin, closest, profession, block.getLocation());
         return true;
     }
 
     /** Finds the nearest unclaimed matching workstation block around a jobless villager and assigns it. */
-    public static boolean claimForVillager(Villager villager, int blockRadius) {
+    public static boolean claimForVillager(VillagerInstantJobPlugin plugin, Villager villager, int blockRadius) {
         if (!isJobless(villager)) {
             return false;
         }
@@ -105,7 +109,7 @@ public final class JobClaimer {
             return false;
         }
 
-        assign(villager, bestProfession, bestBlock.getLocation());
+        assign(plugin, villager, bestProfession, bestBlock.getLocation());
         return true;
     }
 
@@ -125,8 +129,35 @@ public final class JobClaimer {
         return false;
     }
 
-    private static void assign(Villager villager, Villager.Profession profession, Location jobSite) {
+    /**
+     * Setting profession + JOB_SITE memory through the API doesn't register the
+     * claim with vanilla's own internal point-of-interest reservation system.
+     * That mismatch means the villager's own AI can notice on a later tick that
+     * it's not actually holding a real claim on that POI and silently clear the
+     * memory (and sometimes the profession) again a moment later. Reasserting
+     * the assignment a few times over the following couple seconds wins that
+     * race instead of losing to it.
+     */
+    private static void assign(VillagerInstantJobPlugin plugin, Villager villager, Villager.Profession profession, Location jobSite) {
+        applyAssignment(villager, profession, jobSite);
+
+        for (long delay : REASSERT_DELAYS_TICKS) {
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                if (!villager.isValid()) {
+                    return;
+                }
+                if (villager.getProfession() != profession || !jobSite.equals(villager.getMemory(MemoryKey.JOB_SITE))) {
+                    applyAssignment(villager, profession, jobSite);
+                }
+            }, delay);
+        }
+    }
+
+    private static void applyAssignment(Villager villager, Villager.Profession profession, Location jobSite) {
         villager.setProfession(profession);
         villager.setMemory(MemoryKey.JOB_SITE, jobSite);
+
+        Location particleLocation = villager.getLocation().add(0, 1, 0);
+        villager.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, particleLocation, 15, 0.4, 0.5, 0.4, 0.0);
     }
 }

@@ -14,7 +14,7 @@ public final class JobBlockPlaceListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlace(BlockPlaceEvent event) {
-        boolean claimed = JobClaimer.claimForBlock(event.getBlock(), plugin.getSearchRadius());
+        boolean claimed = JobClaimer.claimForBlock(plugin, event.getBlock(), plugin.getSearchRadius());
         if (claimed) {
             plugin.getLogger().info("Villager claimed " + event.getBlock().getType() + " at "
                     + formatLocation(event.getBlock().getLocation()) + " as a job site (on place).");

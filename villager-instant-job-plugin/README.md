@@ -14,8 +14,15 @@ villager that:
 - has no profession (`Profession.NONE`), and
 - has no job site already claimed.
 
-That villager immediately gets the matching profession and claims the new
-block as its job site - no waiting on vanilla's usual delay.
+That villager immediately gets the matching profession, claims the new
+block as its job site, and plays the usual green "happy villager" particle
+burst - no waiting on vanilla's usual delay for either.
+
+Setting profession/job-site through the API doesn't register the claim
+with vanilla's own internal point-of-interest reservation system, so the
+villager's own AI can occasionally notice the mismatch a tick or two later
+and silently clear it again. The assignment is reasserted a few times over
+the following ~2 seconds to win that race instead of losing to it.
 
 Villagers that already have a profession are never touched by this, even
 if they haven't actually traded with anyone yet - only genuinely jobless
@@ -64,4 +71,4 @@ line to console, so you can confirm what happened.
 ./gradlew build
 ```
 
-Jar output: `build/libs/VillagerInstantJob-1.1.0.jar`.
+Jar output: `build/libs/VillagerInstantJob-1.1.2.jar`.

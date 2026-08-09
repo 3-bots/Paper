@@ -16,7 +16,7 @@ public final class JoblessVillagerScanTask implements Runnable {
         int claimedCount = 0;
         for (World world : plugin.getServer().getWorlds()) {
             for (Villager villager : world.getEntitiesByClass(Villager.class)) {
-                if (JobClaimer.claimForVillager(villager, plugin.getScanBlockRadius())) {
+                if (JobClaimer.claimForVillager(plugin, villager, plugin.getScanBlockRadius())) {
                     claimedCount++;
                 }
             }
