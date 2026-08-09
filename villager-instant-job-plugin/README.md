@@ -21,6 +21,12 @@ Villagers that already have a profession are never touched by this, even
 if they haven't actually traded with anyone yet - only genuinely jobless
 villagers get auto-claimed.
 
+A periodic sweep (`scan-interval-ticks`, default every 5s) also catches
+workstations that already existed before this plugin was running, or
+jobless villagers that wander near one later - placement events alone only
+cover brand new blocks. Every successful claim (from either path) logs a
+line to console, so you can confirm what happened.
+
 ## Profession mapping
 
 | Block | Profession |
@@ -44,10 +50,13 @@ villagers get auto-claimed.
 | Option | Description |
 | --- | --- |
 | `settings.search-radius` | How far to look for a jobless villager around a newly placed workstation (default 16) |
+| `settings.scan-block-radius` | How far each jobless villager looks around itself during the periodic sweep (default 8) |
+| `settings.scan-interval-ticks` | How often the sweep runs (default 100 = 5s) |
 
 ## Commands
 
 - `/villagerinstantjob reload` (alias `/vjob reload`, permission `villagerinstantjob.reload`, default: op)
+- `/villagerinstantjob scan` - run the sweep immediately instead of waiting for the next interval
 
 ## Building
 
@@ -55,4 +64,4 @@ villagers get auto-claimed.
 ./gradlew build
 ```
 
-Jar output: `build/libs/VillagerInstantJob-1.0.0.jar`.
+Jar output: `build/libs/VillagerInstantJob-1.1.0.jar`.

@@ -11,3 +11,12 @@ settings:
   # How far (in blocks) to look for a jobless villager around a newly
   # placed workstation.
   search-radius: 16.0
+
+  # A periodic sweep also catches workstations that existed before this
+  # plugin was installed (or before a villager wandered near one) - only
+  # placement events don't cover that. This is how far (in blocks) each
+  # jobless villager looks around itself during that sweep.
+  scan-block-radius: 8
+
+  # How often (in ticks, 20 ticks = 1 second) the sweep runs.
+  scan-interval-ticks: 100

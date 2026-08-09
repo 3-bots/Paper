@@ -51,6 +51,12 @@ public final class WorkstationSnapTask implements Runnable {
         safe.setPitch(0f);
         safe.getChunk();
         villager.teleport(safe);
+        plugin.getLogger().info("Snapped a " + villager.getProfession() + " villager to " + formatLocation(safe)
+                + " (job site " + formatLocation(jobSite) + ", was " + String.format("%.1f", distance) + " blocks away).");
+    }
+
+    private String formatLocation(Location location) {
+        return location.getWorld().getName() + " " + location.getBlockX() + "," + location.getBlockY() + "," + location.getBlockZ();
     }
 
     private Location findSafeSpot(Block jobBlock) {
