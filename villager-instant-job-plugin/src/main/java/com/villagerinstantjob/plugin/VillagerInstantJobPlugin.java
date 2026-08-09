@@ -6,7 +6,8 @@ import org.bukkit.scheduler.BukkitTask;
 
 public final class VillagerInstantJobPlugin extends JavaPlugin {
 
-    private static final long PERSISTENCE_INTERVAL_TICKS = 20L;
+    /** Every tick, not just once a second - see JobPersistenceTask for why. */
+    private static final long PERSISTENCE_INTERVAL_TICKS = 1L;
 
     private double searchRadius = 16.0;
     private int scanBlockRadius = 8;

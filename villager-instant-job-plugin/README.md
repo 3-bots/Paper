@@ -20,21 +20,29 @@ burst - no waiting on vanilla's usual delay for either.
 
 Setting profession/job-site through the API doesn't register the claim
 with vanilla's own internal point-of-interest reservation system - there's
-no plugin API to do that - so the villager's own AI can decide at any
-point, not just right after the claim, that it doesn't actually hold that
-job site and try to demote it back to unemployed (this can be triggered by
-unrelated events elsewhere, like placing another workstation nearby).
-Three layers stop that from ever being visible:
+no plugin API to do that. Because of that, the workstation still looks
+"unclaimed" to vanilla itself, so any other idle villager nearby can
+legitimately try to claim the very same block through completely normal
+vanilla behavior. Vanilla runs a check on every villager, every tick, that
+resolves exactly this kind of conflict by stripping the loser's job-site
+memory outright - with no event fired at all, so there's nothing to
+cancel. That's what was causing the librarian-to-unemployed flicker to
+keep happening even after the reassert/watchdog/event-cancel fixes.
+
+Four layers now guard against it:
 
 1. Vanilla profession changes fire a cancellable event before they take
    effect. This plugin cancels that event outright whenever it would move
-   a tracked villager away from its assigned profession, so the flip never
-   actually happens.
-2. As a backstop, the assignment is also reasserted a few times in the
-   seconds right after the claim.
-3. A recurring watchdog (every second) keeps enforcing every assignment
-   indefinitely afterward, for as long as the workstation block is still
-   there, in case anything slips past the first two layers.
+   a tracked villager away from its assigned profession.
+2. The assignment is also reasserted a few times in the seconds right
+   after the claim.
+3. A watchdog runs every single tick (not just once a second) restoring
+   any tracked villager's profession/job-site the instant vanilla's
+   competitor check knocks it out, so the window where it's actually wrong
+   is as short as physically possible.
+4. Entries are dropped from tracking the moment their workstation block
+   stops matching (broken, replaced, etc.), so deliberate changes are
+   never fought.
 
 Villagers that already have a profession are never touched by this, even
 if they haven't actually traded with anyone yet - only genuinely jobless
@@ -83,4 +91,4 @@ line to console, so you can confirm what happened.
 ./gradlew build
 ```
 
-Jar output: `build/libs/VillagerInstantJob-1.1.5.jar`.
+Jar output: `build/libs/VillagerInstantJob-1.1.6.jar`.

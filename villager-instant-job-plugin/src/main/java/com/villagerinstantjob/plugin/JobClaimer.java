@@ -10,6 +10,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.entity.memory.MemoryKey;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -178,6 +179,11 @@ public final class JobClaimer {
 
     public static int activeAssignmentCount() {
         return ACTIVE_ASSIGNMENTS.size();
+    }
+
+    /** Live view of every villager UUID this plugin is currently enforcing a job for. */
+    public static Set<UUID> trackedVillagerIds() {
+        return ACTIVE_ASSIGNMENTS.keySet();
     }
 
     /**
