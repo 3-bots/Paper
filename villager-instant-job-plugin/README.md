@@ -71,4 +71,4 @@ line to console, so you can confirm what happened.
 ./gradlew build
 ```
 
-Jar output: `build/libs/VillagerInstantJob-1.1.2.jar`.
+Jar output: `build/libs/VillagerInstantJob-1.1.3.jar`.

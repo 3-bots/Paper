@@ -158,6 +158,6 @@ public final class JobClaimer {
         villager.setMemory(MemoryKey.JOB_SITE, jobSite);
 
         Location particleLocation = villager.getLocation().add(0, 1, 0);
-        villager.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, particleLocation, 15, 0.4, 0.5, 0.4, 0.0);
+        villager.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, particleLocation, 15, 0.4, 0.5, 0.4, 0.0);
     }
 }
