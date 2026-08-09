@@ -181,6 +181,26 @@ public final class JobClaimer {
     }
 
     /**
+     * Called from a VillagerCareerChangeEvent handler, before vanilla applies
+     * a profession change. If this villager has a standing assignment from
+     * this plugin and vanilla is about to change it away from that (e.g. its
+     * brain invalidating our unregistered job-site claim and demoting it back
+     * to NONE), the change should be blocked outright instead of letting it
+     * happen and fixing it up a moment later.
+     */
+    public static boolean shouldPreventChange(Villager villager, Villager.Profession incomingProfession) {
+        Assignment assignment = ACTIVE_ASSIGNMENTS.get(villager.getUniqueId());
+        if (assignment == null) {
+            return false;
+        }
+        if (PROFESSION_BY_BLOCK.get(assignment.jobSite().getBlock().getType()) != assignment.profession()) {
+            ACTIVE_ASSIGNMENTS.remove(villager.getUniqueId());
+            return false;
+        }
+        return incomingProfession != assignment.profession();
+    }
+
+    /**
      * Called on a recurring watchdog for every villager. Vanilla's AI can
      * re-validate a job site at any time - not just right after the claim -
      * and silently clear it because our claim was never registered with its

@@ -21,6 +21,7 @@ public final class VillagerInstantJobPlugin extends JavaPlugin {
         loadSettings();
 
         getServer().getPluginManager().registerEvents(new JobBlockPlaceListener(this), this);
+        getServer().getPluginManager().registerEvents(new JobCareerChangeListener(), this);
 
         var command = getCommand("villagerinstantjob");
         if (command != null) {

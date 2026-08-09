@@ -19,15 +19,22 @@ block as its job site, and plays the usual green "happy villager" particle
 burst - no waiting on vanilla's usual delay for either.
 
 Setting profession/job-site through the API doesn't register the claim
-with vanilla's own internal point-of-interest reservation system, so the
-villager's own AI can decide at any point - not just right after the
-claim - that it doesn't actually hold that job site and silently clear
-it again (this can be triggered by unrelated events elsewhere, like
-placing another workstation nearby). The assignment is reasserted a few
-times in the seconds right after the claim, and a recurring watchdog
-(every second) keeps enforcing it indefinitely afterward for as long as
-the workstation block is still there - so a villager that already has a
-job stays employed even if vanilla tries to drop it later.
+with vanilla's own internal point-of-interest reservation system - there's
+no plugin API to do that - so the villager's own AI can decide at any
+point, not just right after the claim, that it doesn't actually hold that
+job site and try to demote it back to unemployed (this can be triggered by
+unrelated events elsewhere, like placing another workstation nearby).
+Three layers stop that from ever being visible:
+
+1. Vanilla profession changes fire a cancellable event before they take
+   effect. This plugin cancels that event outright whenever it would move
+   a tracked villager away from its assigned profession, so the flip never
+   actually happens.
+2. As a backstop, the assignment is also reasserted a few times in the
+   seconds right after the claim.
+3. A recurring watchdog (every second) keeps enforcing every assignment
+   indefinitely afterward, for as long as the workstation block is still
+   there, in case anything slips past the first two layers.
 
 Villagers that already have a profession are never touched by this, even
 if they haven't actually traded with anyone yet - only genuinely jobless
@@ -76,4 +83,4 @@ line to console, so you can confirm what happened.
 ./gradlew build
 ```
 
-Jar output: `build/libs/VillagerInstantJob-1.1.4.jar`.
+Jar output: `build/libs/VillagerInstantJob-1.1.5.jar`.
