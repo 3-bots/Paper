@@ -39,10 +39,15 @@ an anvil/grindstone repair, mending, creative-mode edits, etc.
 
 ## Building
 
-Requires JDK 25 (this plugin targets Paper 26.2, which needs it).
+Unlike the other plugins in this repo, this one isn't a fully standalone
+Gradle project - `26.2-R0.1-SNAPSHOT` isn't published to Paper's Maven
+repo yet, so it depends on the `paper-api` module in this same repo
+directly (`project(":paper-api")`), the same way `test-plugin` does.
+Build it from the **repo root**, not from inside this directory:
 
 ```
-./gradlew build
+./gradlew :item-durability-display-plugin:build
 ```
 
-Jar output: `build/libs/ItemDurabilityDisplay-1.0.0.jar`.
+Requires JDK 25. Jar output:
+`item-durability-display-plugin/build/libs/ItemDurabilityDisplay-1.0.0.jar`.

@@ -4,15 +4,14 @@ on:
   push:
     paths:
       - 'item-durability-display-plugin/**'
+      - 'item-durability-display-plugin.settings.gradle.kts'
+      - 'paper-api/**'
       - '.github/workflows/item-durability-display-plugin.yml'
   workflow_dispatch: {}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: item-durability-display-plugin
     steps:
       - uses: actions/checkout@v7
 
@@ -23,7 +22,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build
-        run: ./gradlew build --stacktrace
+        run: ./gradlew :item-durability-display-plugin:build --stacktrace
 
       - name: Upload jar
         uses: actions/upload-artifact@v7
