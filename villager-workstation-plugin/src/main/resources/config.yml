@@ -1,0 +1,18 @@
+# VillagerWorkstation Configuration
+#
+# Villagers normally walk to their claimed workstation (lectern, composter,
+# smithing table, etc.) on their own, but they can wander off, get stuck,
+# or take a while to path back. This periodically snaps any villager with a
+# claimed workstation back to right beside it while it's daytime.
+
+settings:
+  # How often (in ticks, 20 ticks = 1 second) to scan for villagers to snap.
+  check-interval-ticks: 100
+
+  # If a villager is farther than this many blocks from its workstation,
+  # it gets teleported back next to it.
+  max-distance: 1.5
+
+  # Only do this during the day - villagers sleep at night and shouldn't
+  # be yanked away from a bed.
+  only-daytime: true
