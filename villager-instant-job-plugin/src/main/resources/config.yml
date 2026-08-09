@@ -1,0 +1,13 @@
+# VillagerInstantJob Configuration
+#
+# Normally, an unemployed villager takes a little while to notice a newly
+# placed workstation and claim it as their job site. This makes that
+# instant: when you place a valid workstation block, the nearest jobless
+# villager within range claims it (and gets the matching profession)
+# immediately. Villagers who already have a profession are never touched,
+# regardless of whether they've actually traded yet.
+
+settings:
+  # How far (in blocks) to look for a jobless villager around a newly
+  # placed workstation.
+  search-radius: 16.0
