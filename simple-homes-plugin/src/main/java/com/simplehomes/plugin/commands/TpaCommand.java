@@ -35,7 +35,7 @@ public final class TpaCommand implements CommandExecutor {
             return true;
         }
 
-        Player target = Bukkit.getPlayerExact(args[0]);
+        Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
             player.sendMessage(plugin.message("player_not_found", args[0]));
             return true;

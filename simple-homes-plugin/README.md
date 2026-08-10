@@ -30,8 +30,10 @@ the total cap.
   shadow a plugin's own command of the same name).
 - `/simplehomes reload` (`simplehomes.reload`, default: op) — reload config.
 - `/tpa <player>` — ask to teleport to another player. They get
-  `/tpaccept`/`/tpdeny` to respond.
+  `/tpaccept`/`/tpdeny` to respond. `<player>` only needs to be enough of
+  their name to match uniquely, not the full thing.
 - `/tpahere <player>` — ask another player to teleport to you instead.
+  Same partial-name matching as `/tpa`.
 - `/tpaccept` (alias `/tpyes`) — accept the pending request, if any.
 - `/tpdeny` (alias `/tpno`) — deny it.
 
@@ -48,7 +50,7 @@ Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 ./gradlew build
 ```
 
-Jar output: `build/libs/SimpleHomes-1.2.2.jar`.
+Jar output: `build/libs/SimpleHomes-1.2.3.jar`.
 
 Homes are stored per-player under `plugins/SimpleHomes/playerdata/<uuid>.yml`
 and persist across restarts.
