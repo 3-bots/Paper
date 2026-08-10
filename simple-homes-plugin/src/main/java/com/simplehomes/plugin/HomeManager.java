@@ -69,17 +69,48 @@ public final class HomeManager {
 
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
         ConfigurationSection section = yaml.getConfigurationSection("homes");
-        if (section == null) {
+        if (section != null) {
+            for (String name : section.getKeys(false)) {
+                ConfigurationSection homeSection = section.getConfigurationSection(name);
+                Location loc = deserialize(homeSection);
+                if (loc != null) {
+                    homes.put(name, loc);
+                }
+            }
             return homes;
         }
 
-        for (String name : section.getKeys(false)) {
-            ConfigurationSection homeSection = section.getConfigurationSection(name);
-            Location loc = deserialize(homeSection);
-            if (loc != null) {
-                homes.put(name, loc);
+        // No file in our own format - fall back to another SimpleHomes-style plugin's
+        // format (defaultHome / customHomes, each an org.bukkit.Location) that happens
+        // to share the same plugins/SimpleHomes/playerdata/<uuid>.yml path. Reading it
+        // here means data from a previously installed plugin of that name gets picked
+        // up automatically the first time each player's homes are loaded, instead of
+        // silently starting empty.
+        if (yaml.contains("defaultHome") || yaml.contains("customHomes")) {
+            return loadLegacyHomes(yaml);
+        }
+
+        return homes;
+    }
+
+    private Map<String, Location> loadLegacyHomes(YamlConfiguration yaml) {
+        Map<String, Location> homes = new LinkedHashMap<>();
+
+        Location defaultHome = yaml.getLocation("defaultHome");
+        if (defaultHome != null) {
+            homes.put(SimpleHomesPlugin.DEFAULT_HOME_NAME, defaultHome);
+        }
+
+        ConfigurationSection customSection = yaml.getConfigurationSection("customHomes");
+        if (customSection != null) {
+            for (String name : customSection.getKeys(false)) {
+                Location loc = customSection.getLocation(name);
+                if (loc != null) {
+                    homes.put(name.toLowerCase(), loc);
+                }
             }
         }
+
         return homes;
     }
 

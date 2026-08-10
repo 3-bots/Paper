@@ -48,7 +48,15 @@ Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 ./gradlew build
 ```
 
-Jar output: `build/libs/SimpleHomes-1.2.0.jar`.
+Jar output: `build/libs/SimpleHomes-1.2.1.jar`.
 
 Homes are stored per-player under `plugins/SimpleHomes/playerdata/<uuid>.yml`
 and persist across restarts.
+
+If a player already has a file at that path from a different plugin also
+named "SimpleHomes" that stores `defaultHome`/`customHomes` as raw
+`org.bukkit.Location` values, it's read automatically the first time that
+player's homes are loaded and treated as their existing homes - nothing
+needs to be done manually to migrate it. The file gets rewritten in this
+plugin's own format the next time that player's homes are saved (e.g. on
+their next `/sethome`/`/delhome`, or on server shutdown).
