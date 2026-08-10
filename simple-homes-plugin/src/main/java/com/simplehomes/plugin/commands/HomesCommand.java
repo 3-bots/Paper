@@ -1,6 +1,7 @@
 package com.simplehomes.plugin.commands;
 
 import com.simplehomes.plugin.SimpleHomesPlugin;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,19 +37,25 @@ public final class HomesCommand implements CommandExecutor {
         }
 
         player.sendMessage(plugin.message("homes_list_title"));
-        if (homes.containsKey(SimpleHomesPlugin.DEFAULT_HOME_NAME)) {
-            player.sendMessage(plugin.message("default_home"));
+        Location defaultHome = homes.get(SimpleHomesPlugin.DEFAULT_HOME_NAME);
+        if (defaultHome != null) {
+            player.sendMessage(plugin.message("default_home") + " " + describeLocation(defaultHome));
         }
 
         boolean hasCustom = homes.keySet().stream().anyMatch(n -> !n.equals(SimpleHomesPlugin.DEFAULT_HOME_NAME));
         if (hasCustom) {
             player.sendMessage(plugin.message("custom_homes"));
-            for (String name : homes.keySet()) {
-                if (!name.equals(SimpleHomesPlugin.DEFAULT_HOME_NAME)) {
-                    player.sendMessage(" - " + name);
+            for (Map.Entry<String, Location> entry : homes.entrySet()) {
+                if (!entry.getKey().equals(SimpleHomesPlugin.DEFAULT_HOME_NAME)) {
+                    player.sendMessage(" - " + entry.getKey() + " " + describeLocation(entry.getValue()));
                 }
             }
         }
         return true;
+    }
+
+    private static String describeLocation(Location location) {
+        return ChatColor.GRAY + "(" + location.getWorld().getName() + ": "
+                + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ")";
     }
 }
