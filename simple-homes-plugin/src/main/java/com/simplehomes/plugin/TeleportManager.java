@@ -43,7 +43,7 @@ public final class TeleportManager {
         BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             int seconds = secondsLeft.getAndDecrement();
             if (seconds <= 0) {
-                pending.remove(uuid);
+                cancelTeleport(uuid, false);
                 player.teleport(target);
                 player.sendMessage(plugin.message("teleported"));
                 return;

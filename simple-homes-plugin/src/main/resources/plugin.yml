@@ -1,5 +1,5 @@
 name: SimpleHomes
-version: '1.2.1'
+version: '1.2.2'
 main: com.simplehomes.plugin.SimpleHomesPlugin
 api-version: '1.20'
 author: SimpleHomes
