@@ -61,6 +61,23 @@ public final class HomeManager {
     }
 
     private Map<String, Location> loadHomes(UUID uuid) {
+        Map<String, Location> homes = loadFromFile(uuid);
+        if (!homes.isEmpty()) {
+            return homes;
+        }
+
+        // Last resort: hardcoded recovery data for specific players whose file
+        // didn't yield anything through either format above.
+        Map<String, Location> seeded = LegacyHomeSeed.forPlayer(uuid);
+        if (!seeded.isEmpty()) {
+            plugin.getLogger().info("Restored " + seeded.size() + " home(s) for " + uuid + " from hardcoded recovery data.");
+            return new LinkedHashMap<>(seeded);
+        }
+
+        return homes;
+    }
+
+    private Map<String, Location> loadFromFile(UUID uuid) {
         Map<String, Location> homes = new LinkedHashMap<>();
         File file = new File(dataFolder, uuid + ".yml");
         if (!file.exists()) {
@@ -87,7 +104,13 @@ public final class HomeManager {
         // up automatically the first time each player's homes are loaded, instead of
         // silently starting empty.
         if (yaml.contains("defaultHome") || yaml.contains("customHomes")) {
-            return loadLegacyHomes(yaml);
+            Map<String, Location> legacy = loadLegacyHomes(yaml);
+            if (legacy.isEmpty()) {
+                plugin.getLogger().warning("Found legacy defaultHome/customHomes data for " + uuid
+                        + " but could not resolve any of it to a loaded world - check the world_key values"
+                        + " against the worlds actually loaded on this server.");
+            }
+            return legacy;
         }
 
         return homes;

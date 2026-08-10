@@ -50,7 +50,7 @@ Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 ./gradlew build
 ```
 
-Jar output: `build/libs/SimpleHomes-1.2.3.jar`.
+Jar output: `build/libs/SimpleHomes-1.2.4.jar`.
 
 Homes are stored per-player under `plugins/SimpleHomes/playerdata/<uuid>.yml`
 and persist across restarts.
@@ -62,3 +62,10 @@ player's homes are loaded and treated as their existing homes - nothing
 needs to be done manually to migrate it. The file gets rewritten in this
 plugin's own format the next time that player's homes are saved (e.g. on
 their next `/sethome`/`/delhome`, or on server shutdown).
+
+If that automatic migration doesn't pick anything up for a given player
+(their file yields nothing in either format), the server log will say so
+with a warning naming the player's UUID - check that against the actual
+worlds loaded on the server. `LegacyHomeSeed.java` also carries hardcoded
+recovery data for specific known players as an unconditional last resort
+if the log warning shows up for them again.

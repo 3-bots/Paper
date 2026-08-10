@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.simplehomes"
-version = "1.2.3"
+version = "1.2.4"
 
 java {
     toolchain {
