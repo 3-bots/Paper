@@ -10,9 +10,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public final class PlayerMoveListener implements Listener {
 
     private final TeleportManager teleportManager;
+    private final TpaManager tpaManager;
 
-    public PlayerMoveListener(TeleportManager teleportManager) {
+    public PlayerMoveListener(TeleportManager teleportManager, TpaManager tpaManager) {
         this.teleportManager = teleportManager;
+        this.tpaManager = tpaManager;
     }
 
     @EventHandler
@@ -36,5 +38,6 @@ public final class PlayerMoveListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         teleportManager.cancelTeleport(event.getPlayer().getUniqueId(), false);
+        tpaManager.clearInvolving(event.getPlayer().getUniqueId());
     }
 }

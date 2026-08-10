@@ -5,6 +5,9 @@ import com.simplehomes.plugin.commands.HomeCommand;
 import com.simplehomes.plugin.commands.HomesCommand;
 import com.simplehomes.plugin.commands.SetHomeCommand;
 import com.simplehomes.plugin.commands.SimpleHomesAdminCommand;
+import com.simplehomes.plugin.commands.TpAcceptCommand;
+import com.simplehomes.plugin.commands.TpDenyCommand;
+import com.simplehomes.plugin.commands.TpaCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -22,10 +25,12 @@ public final class SimpleHomesPlugin extends JavaPlugin {
 
     private HomeManager homeManager;
     private TeleportManager teleportManager;
+    private TpaManager tpaManager;
 
     private int teleportDelaySeconds = 3;
     private int maxHomes = 4;
     private int freeHomes = 1;
+    private int tpaExpirySeconds = 120;
     private final TreeMap<Integer, List<CostEntry>> costs = new TreeMap<>();
     private final Map<String, String> messages = new HashMap<>();
 
@@ -36,19 +41,25 @@ public final class SimpleHomesPlugin extends JavaPlugin {
 
         homeManager = new HomeManager(this);
         teleportManager = new TeleportManager(this);
+        tpaManager = new TpaManager(this);
 
-        getServer().getPluginManager().registerEvents(new PlayerMoveListener(teleportManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveListener(teleportManager, tpaManager), this);
 
         setExecutor("sethome", new SetHomeCommand(this));
         setExecutor("delhome", new DelHomeCommand(this));
         setExecutor("home", new HomeCommand(this));
         setExecutor("homes", new HomesCommand(this));
         setExecutor("simplehomes", new SimpleHomesAdminCommand(this));
+        setExecutor("tpa", new TpaCommand(this, false));
+        setExecutor("tpahere", new TpaCommand(this, true));
+        setExecutor("tpaccept", new TpAcceptCommand(this));
+        setExecutor("tpdeny", new TpDenyCommand(this));
     }
 
     @Override
     public void onDisable() {
         teleportManager.cancelAll();
+        tpaManager.cancelAll();
         homeManager.saveAll();
     }
 
@@ -66,6 +77,7 @@ public final class SimpleHomesPlugin extends JavaPlugin {
         teleportDelaySeconds = config.getInt("settings.teleport_delay", 3);
         maxHomes = Math.max(1, config.getInt("settings.max_homes", 4));
         freeHomes = Math.max(0, config.getInt("settings.free_homes", 1));
+        tpaExpirySeconds = Math.max(0, config.getInt("settings.tpa_expiry", 120));
 
         costs.clear();
         ConfigurationSection costsSection = config.getConfigurationSection("costs");
@@ -154,11 +166,19 @@ public final class SimpleHomesPlugin extends JavaPlugin {
         return teleportManager;
     }
 
+    public TpaManager getTpaManager() {
+        return tpaManager;
+    }
+
     public int getTeleportDelaySeconds() {
         return teleportDelaySeconds;
     }
 
     public int getMaxHomes() {
         return maxHomes;
+    }
+
+    public int getTpaExpirySeconds() {
+        return tpaExpirySeconds;
     }
 }

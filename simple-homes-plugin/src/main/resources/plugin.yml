@@ -1,5 +1,5 @@
 name: SimpleHomes
-version: '1.1.1'
+version: '1.2.0'
 main: com.simplehomes.plugin.SimpleHomesPlugin
 api-version: '1.20'
 author: SimpleHomes
@@ -23,6 +23,20 @@ commands:
     description: SimpleHomes admin command
     usage: /<command> reload
     aliases: [shomes]
+  tpa:
+    description: Request to teleport to another player
+    usage: /<command> <player>
+  tpahere:
+    description: Request that another player teleport to you
+    usage: /<command> <player>
+  tpaccept:
+    description: Accept a pending teleport request
+    usage: /<command>
+    aliases: [tpyes]
+  tpdeny:
+    description: Deny a pending teleport request
+    usage: /<command>
+    aliases: [tpno]
 
 permissions:
   simplehomes.sethome:
@@ -43,3 +57,6 @@ permissions:
   simplehomes.bypasscost:
     description: Allows setting homes without paying the resource cost
     default: op
+  simplehomes.tpa:
+    description: Allows sending, accepting, and denying teleport requests
+    default: true

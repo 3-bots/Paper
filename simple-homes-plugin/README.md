@@ -29,6 +29,16 @@ the total cap.
   plugin on your server (Minehut bundles some built-in commands that can
   shadow a plugin's own command of the same name).
 - `/simplehomes reload` (`simplehomes.reload`, default: op) — reload config.
+- `/tpa <player>` — ask to teleport to another player. They get
+  `/tpaccept`/`/tpdeny` to respond.
+- `/tpahere <player>` — ask another player to teleport to you instead.
+- `/tpaccept` (alias `/tpyes`) — accept the pending request, if any.
+- `/tpdeny` (alias `/tpno`) — deny it.
+
+Requests expire after `settings.tpa_expiry` seconds (default 120, 0 =
+never). Accepted teleports go through the same delay-and-cancel-on-move
+behavior as `/home`. Permission `simplehomes.tpa` (default: true) gates
+all four tpa commands.
 
 Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 
@@ -38,7 +48,7 @@ Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 ./gradlew build
 ```
 
-Jar output: `build/libs/SimpleHomes-1.1.1.jar`.
+Jar output: `build/libs/SimpleHomes-1.2.0.jar`.
 
 Homes are stored per-player under `plugins/SimpleHomes/playerdata/<uuid>.yml`
 and persist across restarts.

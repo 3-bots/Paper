@@ -4,6 +4,7 @@ settings:
   teleport_delay: 3 # Delay in seconds before teleporting
   max_homes: 4       # Maximum number of homes a player can have in total (including the free one)
   free_homes: 1      # How many of those homes are free (counted in the order they're set, "default" first)
+  tpa_expiry: 120    # Seconds before an unanswered /tpa or /tpahere request expires. 0 = never expires.
 
 # Resource cost to set your Nth home, for N greater than free_homes above.
 # Each entry is a list of items (all are required together) taken from the
@@ -67,3 +68,21 @@ messages:
   no_permission: '&cYou do not have permission to do that.'
   player_only: '&cOnly players can use this command.'
   reload_success: '&aSimpleHomes configuration reloaded.'
+
+  # TPA messages
+  usage_tpa: '&fUsage: /tpa <player>'
+  usage_tpahere: '&fUsage: /tpahere <player>'
+  player_not_found: '&cPlayer ''%s'' not found.'
+  tpa_self: '&cYou cannot send a teleport request to yourself.'
+  tpa_sent: '&fTeleport request sent to %s.'
+  tpa_received: '&f%s wants to teleport to you. Use /tpaccept or /tpdeny.'
+  tpahere_sent: '&fRequest sent asking %s to teleport to you.'
+  tpahere_received: '&f%s wants you to teleport to them. Use /tpaccept or /tpdeny.'
+  no_pending_tpa: '&cYou have no pending teleport request.'
+  tpa_requester_offline: '&cThat player is no longer online.'
+  tpa_accepted_moving: '&fTeleport request accepted, teleporting to %s.'
+  tpa_accepted_waiting: '&f%s accepted your teleport request.'
+  tpa_denied_target: '&fTeleport request denied.'
+  tpa_denied_requester: '&c%s denied your teleport request.'
+  tpa_expired_requester: '&cYour teleport request to %s expired.'
+  tpa_expired_target: '&cThe teleport request from %s expired.'
