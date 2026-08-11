@@ -23,23 +23,22 @@ camera-lock would kick in) instead of the passive vanilla behavior:
   re-applies the lock every single time it slips, every move tick,
   keeping the through-its-eyes view effectively permanent while your
   movement input itself was never actually blocked.
-- The mob **follows your flight exactly** - fly around and the mob moves
-  with you (and turns to face wherever you're looking), so you're
-  effectively steering it wherever you go while watching through its own
-  eyes. Since this is direct position-following with none of the mob's
-  normal movement constraints, this already covers every movement style
-  uniformly - a possessed spider can go up walls and across ceilings, a
-  blaze can hover in midair, an ender dragon can fly, all the same way,
-  because nothing is stopping any of them from going anywhere you fly.
-  Flying through water looks and feels right too, since the underwater
-  tint is tied to camera position, not gamemode.
-- **Left-click something else while already possessing to attack with the
-  mob** - spectators can never deal damage themselves (blocked before any
-  Bukkit event would fire), so this reuses the same spectate-click event:
-  once you're already possessing, clicking another entity deals damage
-  from the mob to it instead of trying to switch targets, using the mob's
-  own `Attribute.ATTACK_DAMAGE` (a flat 1.0 for mobs without one, e.g.
-  possessing a passive animal).
+- Your movement drives the mob with real **velocity**, not a raw
+  teleport - so it moves like it actually would: a chicken stays grounded
+  (gravity pulls it back down even if you try to fly it upward), a
+  naturally airborne mob stays aloft, and it's all smooth physics instead
+  of snapping to your position every tick (which also caused visible
+  camera hitches, since the camera is locked to an entity that kept
+  getting teleported). The mob also keeps turning to face wherever you
+  look, and flying through water looks and feels right, since the
+  underwater tint is tied to camera position, not gamemode.
+- **Left-click (swing your arm) to attack with the mob** - spectators can
+  never deal damage themselves through any normal path, so this hooks
+  arm-swing directly (fires on every left-click no matter what, unlike
+  the spectate-lock event above, which likely only fires once) and
+  raytraces from the mob's own eyes for whatever's in range, dealing
+  damage from the mob using its own `Attribute.ATTACK_DAMAGE` (a flat 1.0
+  for mobs without one, e.g. possessing a passive animal).
 - You immediately get a chat message confirming possession (includes the
   plugin's version number - a quick way to check you're actually running
   the jar you think you are). A book pops open a tick later (deferred
@@ -99,4 +98,4 @@ module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`spectator-possession-plugin/build/libs/SpectatorPossession-1.4.0.jar`.
+`spectator-possession-plugin/build/libs/SpectatorPossession-1.5.0.jar`.
