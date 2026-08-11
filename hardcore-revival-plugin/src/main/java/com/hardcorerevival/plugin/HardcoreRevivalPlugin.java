@@ -17,6 +17,7 @@ public final class HardcoreRevivalPlugin extends JavaPlugin {
     private int requiredIronBlocks = 4;
     private int requiredDiamondBlocks = 4;
     private int sacrificeWindowSeconds = 60;
+    private double ritualBlockLossChance = 0.3;
     private final Map<String, String> messages = new HashMap<>();
 
     private PendingRevivalRegistry pendingRevivalRegistry;
@@ -24,6 +25,7 @@ public final class HardcoreRevivalPlugin extends JavaPlugin {
     private AltarFinder altarFinder;
     private RitualState ritualState;
     private EssenceEffect essenceEffect;
+    private AltarConsumption altarConsumption;
     private BukkitTask glowTask;
 
     @Override
@@ -36,6 +38,7 @@ public final class HardcoreRevivalPlugin extends JavaPlugin {
         altarFinder = new AltarFinder(this, altarValidator);
         ritualState = new RitualState();
         essenceEffect = new EssenceEffect(this);
+        altarConsumption = new AltarConsumption(this);
 
         getServer().getPluginManager().registerEvents(new HardcoreDeathListener(this), this);
         getServer().getPluginManager().registerEvents(new VillagerSacrificeListener(this), this);
@@ -65,6 +68,7 @@ public final class HardcoreRevivalPlugin extends JavaPlugin {
         requiredIronBlocks = Math.max(1, config.getInt("settings.iron-blocks-required", 4));
         requiredDiamondBlocks = Math.max(1, config.getInt("settings.diamond-blocks-required", 4));
         sacrificeWindowSeconds = Math.max(1, config.getInt("settings.sacrifice-window-seconds", 60));
+        ritualBlockLossChance = Math.min(1.0, Math.max(0.0, config.getDouble("settings.ritual-block-loss-chance", 0.3)));
 
         messages.clear();
         ConfigurationSection messagesSection = config.getConfigurationSection("messages");
@@ -119,6 +123,10 @@ public final class HardcoreRevivalPlugin extends JavaPlugin {
         return sacrificeWindowSeconds;
     }
 
+    public double getRitualBlockLossChance() {
+        return ritualBlockLossChance;
+    }
+
     public PendingRevivalRegistry getPendingRevivalRegistry() {
         return pendingRevivalRegistry;
     }
@@ -137,5 +145,9 @@ public final class HardcoreRevivalPlugin extends JavaPlugin {
 
     public EssenceEffect getEssenceEffect() {
         return essenceEffect;
+    }
+
+    public AltarConsumption getAltarConsumption() {
+        return altarConsumption;
     }
 }

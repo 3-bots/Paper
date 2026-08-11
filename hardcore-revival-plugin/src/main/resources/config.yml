@@ -18,6 +18,11 @@ settings:
   # can still be thrown into that altar's fire to complete the ritual.
   sacrifice-window-seconds: 60
 
+  # The ritual takes its toll on the altar: when the revival completes,
+  # each Iron/Gold/Diamond block within altar-radius independently rolls
+  # this chance (0.0-1.0) to get struck by lightning and disappear.
+  ritual-block-loss-chance: 0.3
+
 messages:
   prefix: '&7[&4HardcoreRevival&7]'
   sacrifice_needed: '&cYou must sacrifice a villager at this altar first.'
@@ -27,3 +32,4 @@ messages:
   target_not_online: '&cThat player must be online and in spectator for the ritual to work.'
   revival_success: '&a%s has been brought back by the ritual!'
   revived_message: '&aYou have been revived by the ritual!'
+  altar_consumed: '&4The ritual consumed %s block(s) from the altar.'

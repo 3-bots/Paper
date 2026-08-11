@@ -33,6 +33,13 @@ spectator - the book is consumed, lightning strikes the altar (visual
 only, no damage), and the named player is set back to survival with full
 health at the altar.
 
+**The ritual has a cost.** The moment the player is revived, every
+Iron/Gold/Diamond Block within `altar-radius` of the fire independently
+rolls `ritual-block-loss-chance` - blocks that hit get struck by real
+lightning and disappear. It's random how many (if any) you lose each
+time, so a bigger altar than the minimum required is a buffer, not just
+overkill.
+
 ## Configuration (`config.yml`)
 
 | Option | Description |
@@ -42,6 +49,7 @@ health at the altar.
 | `settings.iron-blocks-required` | Minimum Iron Blocks needed near the fire (default 4) |
 | `settings.diamond-blocks-required` | Minimum Diamond Blocks needed near the fire (default 4) |
 | `settings.sacrifice-window-seconds` | How long a sacrifice keeps an altar armed (default 60) |
+| `settings.ritual-block-loss-chance` | Per-block chance (0.0-1.0) for each Iron/Gold/Diamond Block near the fire to be struck and destroyed when the revival completes (default 0.3) |
 
 ## Commands
 
@@ -57,7 +65,7 @@ on this repo's own `paper-api` module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`hardcore-revival-plugin/build/libs/HardcoreRevival-1.0.0.jar`.
+`hardcore-revival-plugin/build/libs/HardcoreRevival-1.1.0.jar`.
 
 Players awaiting revival are stored in
 `plugins/HardcoreRevival/pending.yml` and persist across restarts.

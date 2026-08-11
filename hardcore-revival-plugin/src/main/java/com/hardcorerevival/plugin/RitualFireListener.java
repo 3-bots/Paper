@@ -70,6 +70,11 @@ public final class RitualFireListener implements Listener {
         target.teleport(fire.clone().add(0.5, 1, 0.5));
         target.sendMessage(plugin.message("revived_message"));
 
+        int consumed = plugin.getAltarConsumption().strikeAndConsume(fire);
+        if (consumed > 0) {
+            player.sendMessage(plugin.message("altar_consumed", consumed));
+        }
+
         plugin.getServer().broadcastMessage(plugin.message("revival_success", target.getName()));
         event.setCancelled(true);
     }
