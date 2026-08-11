@@ -39,14 +39,20 @@ public final class PossessionManager {
         mobToPossessor.put(mob.getUniqueId(), player.getUniqueId());
 
         mob.setAI(false);
-        player.setSpectatorTarget(mob);
+        // Deliberately not using Player#setSpectatorTarget here: vanilla's camera-lock
+        // takes over input handling client-side, so the possessor's own WASD stops
+        // producing PlayerMoveEvents entirely - they'd be a passive viewer with no
+        // control, not a possessor. Instead, drop them right into the mob's eye spot
+        // as a normal free-flying spectator; onMove() below then drags the mob along
+        // with their real, unhijacked movement.
+        player.teleport(mob.getEyeLocation());
 
         var abilities = plugin.getAbilityRegistry().getAbilities(mob.getType());
         player.openBook(ControlsBook.build(mob, abilities));
         AbilitySidebar.show(player, mob, abilities);
     }
 
-    /** Clears possession state, restores the mob's AI if it's still alive, and resets the player's camera/sidebar. */
+    /** Clears possession state, restores the mob's AI if it's still alive, and hides the player's sidebar. */
     public void stopPossessing(Player player) {
         UUID mobId = possessorToMob.remove(player.getUniqueId());
         if (mobId == null) {
@@ -54,9 +60,6 @@ public final class PossessionManager {
         }
         mobToPossessor.remove(mobId);
 
-        if (player.getSpectatorTarget() != null) {
-            player.setSpectatorTarget(null);
-        }
         AbilitySidebar.hide(player);
 
         Entity entity = plugin.getServer().getEntity(mobId);

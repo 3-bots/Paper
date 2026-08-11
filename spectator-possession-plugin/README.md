@@ -8,16 +8,22 @@ actually controlling it.
 
 Right-click a mob while in spectator mode to possess it:
 
-- The mob's own AI is disabled and your camera locks to it (via vanilla's
-  spectator-target mechanism), same as the normal vanilla feature.
-- Unlike vanilla, the mob now **follows your flight exactly** - fly around
-  as a spectator and the mob moves with you, so you're effectively
-  steering it wherever you go. Since this is direct position-following
-  with none of the mob's normal movement constraints, this already covers
-  every movement style uniformly - a possessed spider can go up walls and
-  across ceilings, a blaze can hover in midair, an ender dragon can fly,
-  all the same way, because nothing is stopping any of them from going
-  anywhere you fly.
+- The mob's own AI is disabled and you're teleported right into its eye
+  spot as a normal free-flying spectator. This deliberately does **not**
+  use vanilla's `Player#setSpectatorTarget` camera-lock ("view through an
+  entity") - that hijacks input client-side so your own WASD stops moving
+  anything at all, which is real vanilla behavior, not a bug in the
+  possession-target mob, and it's why an earlier build of this plugin left
+  you stuck passively watching through the mob's eyes with no control.
+  Staying a normal spectator means your movement keeps working exactly as
+  it always does.
+- The mob **follows your flight exactly** - fly around as a spectator and
+  the mob moves with you, so you're effectively steering it wherever you
+  go. Since this is direct position-following with none of the mob's
+  normal movement constraints, this already covers every movement style
+  uniformly - a possessed spider can go up walls and across ceilings, a
+  blaze can hover in midair, an ender dragon can fly, all the same way,
+  because nothing is stopping any of them from going anywhere you fly.
 - A book pops open immediately, and a **sidebar** (top-right of your
   screen) stays up the whole time you're possessing, both listing every
   ability that mob has and which hotbar key (1-9, not just 1-4 - however
@@ -27,8 +33,9 @@ Right-click a mob while in spectator mode to possess it:
   is true), which also releases you back to free spectating since the
   creeper is gone.
 - **Swap hands (F)** or run `/possess release` to let go of the mob
-  voluntarily - its AI comes back, your camera returns to normal, and the
-  sidebar disappears.
+  voluntarily - its AI comes back and the sidebar disappears. You stay
+  wherever you were (right where the mob was), free to fly off as a
+  normal spectator again.
 - Possession also ends automatically (with the same cleanup) if the mob
   dies, you leave spectator mode, or you disconnect.
 
@@ -66,4 +73,4 @@ module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`spectator-possession-plugin/build/libs/SpectatorPossession-1.2.0.jar`.
+`spectator-possession-plugin/build/libs/SpectatorPossession-1.2.1.jar`.
