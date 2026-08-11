@@ -9,7 +9,7 @@ settings:
   update-interval-ticks: 20
 
   # Horizontal radius in blocks at each pyramid tier (index 0 = tier 1 ... index 3 = tier 4).
-  tier-horizontal-radius: [10, 20, 35, 50]
+  tier-horizontal-radius: [40, 20, 35, 50]
 
   # Vertical range in blocks, up and down from the marker, at each tier.
   tier-vertical-radius: [10, 15, 20, 25]

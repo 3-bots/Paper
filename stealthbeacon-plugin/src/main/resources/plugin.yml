@@ -1,5 +1,5 @@
 name: StealthBeacon
-version: '1.0.0'
+version: '1.0.1'
 main: com.stealthbeacon.plugin.StealthBeaconPlugin
 api-version: '26.2'
 author: StealthBeacon

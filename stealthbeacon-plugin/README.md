@@ -51,7 +51,7 @@ the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`stealthbeacon-plugin/build/libs/StealthBeacon-1.0.0.jar`.
+`stealthbeacon-plugin/build/libs/StealthBeacon-1.0.1.jar`.
 
 Registered beacon marker locations are stored in
 `plugins/StealthBeacon/beacons.yml` and persist across restarts.

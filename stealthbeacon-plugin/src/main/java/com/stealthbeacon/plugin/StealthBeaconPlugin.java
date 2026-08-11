@@ -13,7 +13,7 @@ import java.util.Map;
 
 public final class StealthBeaconPlugin extends JavaPlugin {
 
-    private static final double[] DEFAULT_HORIZONTAL_RADII = {10, 20, 35, 50};
+    private static final double[] DEFAULT_HORIZONTAL_RADII = {40, 20, 35, 50};
     private static final double[] DEFAULT_VERTICAL_RADII = {10, 15, 20, 25};
 
     private Material markerMaterial = Material.SEA_LANTERN;
