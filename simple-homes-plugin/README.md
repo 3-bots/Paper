@@ -50,6 +50,12 @@ died and went into spectator, or came back from a hardcore revival), so a
 spectator can never end up teleported to or from - and can't use TPA to
 land next to another player and read their coordinates off the F3 screen.
 
+Separately, vanilla Minecraft's own spectator-menu teleport (clicking a
+player's name in the tab/player list while in spectator mode, which jumps
+you straight to their location) is also blocked outright - that's a
+built-in client feature, not a command, so it would otherwise let a
+spectator see someone else's coordinates with no TPA involved at all.
+
 Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 
 ## Building
@@ -58,7 +64,7 @@ Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 ./gradlew build
 ```
 
-Jar output: `build/libs/SimpleHomes-1.2.5.jar`.
+Jar output: `build/libs/SimpleHomes-1.2.6.jar`.
 
 Homes are stored per-player under `plugins/SimpleHomes/playerdata/<uuid>.yml`
 and persist across restarts.

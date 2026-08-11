@@ -89,3 +89,4 @@ messages:
   tpa_spectator_self: '&cYou cannot send teleport requests while in spectator mode.'
   tpa_spectator_target: '&cYou cannot send a teleport request involving %s - they are in spectator mode.'
   tpa_spectator_cancelled: '&cThat teleport request was cancelled - a player in spectator mode cannot be teleported to or from.'
+  spectate_menu_blocked: '&cYou cannot teleport to another player through the spectator menu.'

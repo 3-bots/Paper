@@ -44,6 +44,7 @@ public final class SimpleHomesPlugin extends JavaPlugin {
         tpaManager = new TpaManager(this);
 
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(teleportManager, tpaManager), this);
+        getServer().getPluginManager().registerEvents(new SpectatorTeleportListener(this), this);
 
         setExecutor("sethome", new SetHomeCommand(this));
         setExecutor("delhome", new DelHomeCommand(this));
