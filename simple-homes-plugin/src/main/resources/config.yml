@@ -86,3 +86,6 @@ messages:
   tpa_denied_requester: '&c%s denied your teleport request.'
   tpa_expired_requester: '&cYour teleport request to %s expired.'
   tpa_expired_target: '&cThe teleport request from %s expired.'
+  tpa_spectator_self: '&cYou cannot send teleport requests while in spectator mode.'
+  tpa_spectator_target: '&cYou cannot send a teleport request involving %s - they are in spectator mode.'
+  tpa_spectator_cancelled: '&cThat teleport request was cancelled - a player in spectator mode cannot be teleported to or from.'
