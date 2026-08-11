@@ -9,7 +9,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-/** Per-mob-type abilities, each bound to a hotbar key (1-4). Add more via register() to extend it. */
+/** Per-mob-type abilities, each bound to a hotbar key (1-9). Add more via register() to extend it. */
 public final class AbilityRegistry {
 
     public record AbilityDefinition(int slot, String name, String description, MobAbility action) {
@@ -22,8 +22,16 @@ public final class AbilityRegistry {
     }
 
     private void register(EntityType type, int slot, String name, String description, MobAbility action) {
-        abilities.computeIfAbsent(type, key -> new ArrayList<>())
-                .add(new AbilityDefinition(slot, name, description, action));
+        if (slot < 1 || slot > 9) {
+            throw new IllegalArgumentException("Ability slot must be a hotbar key 1-9, got " + slot + " for " + type);
+        }
+        List<AbilityDefinition> existing = abilities.computeIfAbsent(type, key -> new ArrayList<>());
+        for (AbilityDefinition definition : existing) {
+            if (definition.slot() == slot) {
+                throw new IllegalArgumentException("Slot " + slot + " is already used for " + type);
+            }
+        }
+        existing.add(new AbilityDefinition(slot, name, description, action));
     }
 
     public List<AbilityDefinition> getAbilities(EntityType type) {

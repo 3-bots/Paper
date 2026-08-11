@@ -22,5 +22,10 @@ public final class CreeperExplodeAbility implements MobAbility {
         }
         creeper.getWorld().createExplosion(creeper.getLocation(), EXPLOSION_POWER, false, plugin.isExplosionBreaksBlocks());
         creeper.remove();
+
+        // Entity#remove() doesn't fire EntityDeathEvent, so release explicitly
+        // instead of leaving the possessor stuck pointed at a gone entity.
+        plugin.getPossessionManager().stopPossessing(possessor);
+        possessor.sendMessage(plugin.message("possess_ended_death"));
     }
 }

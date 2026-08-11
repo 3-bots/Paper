@@ -43,9 +43,10 @@ public final class PossessionManager {
 
         var abilities = plugin.getAbilityRegistry().getAbilities(mob.getType());
         player.openBook(ControlsBook.build(mob, abilities));
+        AbilitySidebar.show(player, mob, abilities);
     }
 
-    /** Clears possession state, restores the mob's AI if it's still alive, and resets the player's camera. */
+    /** Clears possession state, restores the mob's AI if it's still alive, and resets the player's camera/sidebar. */
     public void stopPossessing(Player player) {
         UUID mobId = possessorToMob.remove(player.getUniqueId());
         if (mobId == null) {
@@ -56,6 +57,7 @@ public final class PossessionManager {
         if (player.getSpectatorTarget() != null) {
             player.setSpectatorTarget(null);
         }
+        AbilitySidebar.hide(player);
 
         Entity entity = plugin.getServer().getEntity(mobId);
         if (entity instanceof Mob mob && mob.isValid()) {
