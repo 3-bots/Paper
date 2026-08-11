@@ -44,6 +44,7 @@ public final class HardcoreRevivalPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new HardcoreDeathListener(this), this);
         getServer().getPluginManager().registerEvents(new VillagerSacrificeListener(this), this);
         getServer().getPluginManager().registerEvents(new RitualFireListener(this), this);
+        getServer().getPluginManager().registerEvents(new RitualSignListener(this), this);
 
         var command = getCommand("hardcorerevival");
         if (command != null) {

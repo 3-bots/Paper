@@ -33,3 +33,10 @@ messages:
   revival_success: '&a%s has been brought back by the ritual!'
   revived_message: '&aYou have been revived by the ritual!'
   altar_consumed: '&4The ritual consumed %s block(s) from the altar.'
+
+  # Sent the moment you sign a book naming a pending player, telling you what's
+  # still missing (nothing is sent if the book doesn't name anyone pending).
+  sign_feedback_no_altar: '&eThis book names %s, but you are not near a complete altar for them.'
+  sign_feedback_no_sacrifice: '&eThe altar for %s is not armed yet - sacrifice a villager there first.'
+  sign_feedback_target_offline: '&e%s must be online and in spectator for the ritual to work.'
+  sign_feedback_ready: '&aEverything checks out for %s - go burn this book in the fire!'

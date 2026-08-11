@@ -27,6 +27,13 @@ ritual finishes). Matching ignores dots on either side of the name, so a
 Bedrock player whose Java name is Floodgate-prefixed (like
 `.Mrkumi1212`) matches whether or not you type the dot.
 
+The moment you **sign** a book that names a pending player, you get an
+immediate chat message telling you exactly what's still missing - no
+complete altar nearby, altar not armed with a sacrifice yet, or the
+target isn't online/in spectator - or that everything checks out and
+you're ready to burn it. Signing a book that doesn't name anyone pending
+stays silent.
+
 **Sacrifice a villager.** Kill a villager within `altar-radius` of a
 complete altar. Particles stream from where it died into the fire, and
 that altar is "armed" for `sacrifice-window-seconds` (default 60s).
@@ -70,7 +77,7 @@ on this repo's own `paper-api` module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`hardcore-revival-plugin/build/libs/HardcoreRevival-1.2.1.jar`.
+`hardcore-revival-plugin/build/libs/HardcoreRevival-1.3.0.jar`.
 
 Players awaiting revival are stored in
 `plugins/HardcoreRevival/pending.yml` and persist across restarts.
