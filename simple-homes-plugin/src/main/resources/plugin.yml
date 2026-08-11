@@ -1,9 +1,9 @@
 name: SimpleHomes
-version: '1.2.6'
+version: '1.2.7'
 main: com.simplehomes.plugin.SimpleHomesPlugin
 api-version: '1.20'
 author: SimpleHomes
-description: Multi-home plugin where the first home is free and additional homes cost resources.
+description: Multi-home plugin. All home slots are free by default (configurable).
 
 commands:
   sethome:

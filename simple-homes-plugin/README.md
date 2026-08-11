@@ -1,21 +1,31 @@
 # SimpleHomes
 
-A multi-home Paper plugin for Minecraft 1.20.2. Every player gets one free
-home; each additional home slot costs resources taken from the player's
-inventory when it's set.
+A multi-home Paper plugin for Minecraft 1.20.2. Every home slot (up to
+`settings.max_homes`, 4 by default) is free by default - `settings.free_homes`
+is set equal to `settings.max_homes` out of the box, and `costs` is empty.
 
-## Default cost table (`config.yml` -> `costs`)
+## Charging for homes (optional)
 
-| Home # | Cost |
-| --- | --- |
-| 1 | Free |
-| 2 | 1x Diamond Block |
-| 3 | 1x Netherite Block |
-| 4 | 1x Nether Star + 1x Diamond Block + 1x Netherite Block |
+To charge resources for homes past a certain slot, lower `settings.free_homes`
+below `settings.max_homes` and add entries back to the `costs` section in
+`config.yml`, keyed by home slot number. Example:
 
-Edit the `costs` section in `config.yml` to change items/amounts, or
-`settings.free_homes` / `settings.max_homes` to change how many are free vs.
-the total cap.
+```yaml
+settings:
+  free_homes: 1
+
+costs:
+  2:
+    - material: DIAMOND_BLOCK
+      amount: 1
+  3:
+    - material: NETHERITE_BLOCK
+      amount: 1
+```
+
+Each entry is a list of items (all required together) taken from the
+player's inventory when that home slot is set. Slots beyond the highest
+numbered entry in `costs` reuse the last defined cost.
 
 ## Commands
 
@@ -64,7 +74,7 @@ Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 ./gradlew build
 ```
 
-Jar output: `build/libs/SimpleHomes-1.2.6.jar`.
+Jar output: `build/libs/SimpleHomes-1.2.7.jar`.
 
 Homes are stored per-player under `plugins/SimpleHomes/playerdata/<uuid>.yml`
 and persist across restarts.

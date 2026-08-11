@@ -3,27 +3,16 @@
 settings:
   teleport_delay: 3 # Delay in seconds before teleporting
   max_homes: 4       # Maximum number of homes a player can have in total (including the free one)
-  free_homes: 1      # How many of those homes are free (counted in the order they're set, "default" first)
+  free_homes: 4      # How many of those homes are free (counted in the order they're set, "default" first). Set equal to max_homes to make every home free.
   tpa_expiry: 120    # Seconds before an unanswered /tpa or /tpahere request expires. 0 = never expires.
 
 # Resource cost to set your Nth home, for N greater than free_homes above.
 # Each entry is a list of items (all are required together) taken from the
 # player's inventory when that home slot is set. Slots beyond the highest
-# numbered entry here reuse the last defined cost.
-costs:
-  2:
-    - material: DIAMOND_BLOCK
-      amount: 1
-  3:
-    - material: NETHERITE_BLOCK
-      amount: 1
-  4:
-    - material: NETHER_STAR
-      amount: 1
-    - material: DIAMOND_BLOCK
-      amount: 1
-    - material: NETHERITE_BLOCK
-      amount: 1
+# numbered entry here reuse the last defined cost. Empty because free_homes
+# above already covers every home slot - add entries back here if you want
+# to charge for homes past max_homes again later.
+costs: {}
 
 messages:
   prefix: '&7[&bSimpleHomes&7]' # Prefix for all plugin messages
