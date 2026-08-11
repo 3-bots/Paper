@@ -1,0 +1,22 @@
+settings:
+  # Block type used as the beacon marker. Place it on top of a diamond block
+  # pyramid (same layout as a vanilla beacon: 3x3 ring directly below, 5x5
+  # below that, 7x7, then 9x9 for the max tier 4) to activate it.
+  marker-material: SEA_LANTERN
+
+  # How often (in ticks, 20 = 1 second) pyramids are re-checked and nametag
+  # visibility is updated for online players.
+  update-interval-ticks: 20
+
+  # Horizontal radius in blocks at each pyramid tier (index 0 = tier 1 ... index 3 = tier 4).
+  tier-horizontal-radius: [10, 20, 35, 50]
+
+  # Vertical range in blocks, up and down from the marker, at each tier.
+  tier-vertical-radius: [10, 15, 20, 25]
+
+messages:
+  prefix: '&7[&bStealthBeacon&7]'
+  beacon_placed: '&fBeacon marker placed. Build diamond block layers beneath it to activate.'
+  beacon_removed: '&fBeacon marker removed.'
+  beacon_inactive: '&cThis beacon has no complete diamond pyramid yet.'
+  beacon_info: '&fThis beacon is tier %s: covers %s blocks horizontally and %s blocks up/down.'

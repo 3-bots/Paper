@@ -1,0 +1,17 @@
+name: StealthBeacon
+version: '1.0.0'
+main: com.stealthbeacon.plugin.StealthBeaconPlugin
+api-version: '26.2'
+author: StealthBeacon
+description: Place a marker block on a diamond-block pyramid to hide the nametags of anyone within its configurable range.
+
+commands:
+  stealthbeacon:
+    description: Manage the StealthBeacon plugin
+    usage: /<command> reload
+    aliases: [sbeacon]
+
+permissions:
+  stealthbeacon.reload:
+    description: Allows reloading the StealthBeacon configuration
+    default: op
