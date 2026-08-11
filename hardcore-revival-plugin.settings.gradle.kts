@@ -1,0 +1,1 @@
+include(":hardcore-revival-plugin")

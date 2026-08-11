@@ -40,6 +40,7 @@ optionalInclude("test-plugin")
 optionalInclude("paper-generator")
 optionalInclude("item-durability-display-plugin")
 optionalInclude("stealthbeacon-plugin")
+optionalInclude("hardcore-revival-plugin")
 
 fun optionalInclude(name: String, op: (ProjectDescriptor.() -> Unit)? = null) {
     val settingsFile = file("$name.settings.gradle.kts")

@@ -1,0 +1,17 @@
+name: HardcoreRevival
+version: '1.0.0'
+main: com.hardcorerevival.plugin.HardcoreRevivalPlugin
+api-version: '26.2'
+author: HardcoreRevival
+description: A ritual to bring a hardcore-dead player back from spectator - build an altar, name them in a book, sacrifice a villager, and burn the book.
+
+commands:
+  hardcorerevival:
+    description: Manage the HardcoreRevival plugin
+    usage: /<command> reload
+    aliases: [revival]
+
+permissions:
+  hardcorerevival.reload:
+    description: Allows reloading the HardcoreRevival configuration
+    default: op

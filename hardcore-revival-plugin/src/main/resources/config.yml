@@ -1,0 +1,29 @@
+settings:
+  # Block type the ritual altar is centered on. You throw the finished book
+  # into this block to complete the ritual.
+  fire-material: FIRE
+
+  # How far (in blocks, all directions) around the fire block to look for
+  # the rest of the altar, and how close a villager sacrifice needs to be
+  # to count for a given altar.
+  altar-radius: 3
+
+  # Minimum Iron Blocks and Diamond Blocks that must be somewhere within
+  # altar-radius of the fire for it to count as a complete altar. Their
+  # exact placement/pattern doesn't matter, just the total count.
+  iron-blocks-required: 4
+  diamond-blocks-required: 4
+
+  # How long (in seconds) after sacrificing a villager at an altar the book
+  # can still be thrown into that altar's fire to complete the ritual.
+  sacrifice-window-seconds: 60
+
+messages:
+  prefix: '&7[&4HardcoreRevival&7]'
+  sacrifice_needed: '&cYou must sacrifice a villager at this altar first.'
+  sacrifice_done: '&4The villager''s essence is drawn into the flame...'
+  altar_invalid: '&cThis is not a complete ritual altar - check the iron blocks, diamond blocks, gold torch, and redstone torch.'
+  no_pending_player: '&cNo one by that name is awaiting revival.'
+  target_not_online: '&cThat player must be online and in spectator for the ritual to work.'
+  revival_success: '&a%s has been brought back by the ritual!'
+  revived_message: '&aYou have been revived by the ritual!'
