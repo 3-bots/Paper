@@ -51,6 +51,17 @@ public final class PendingRevivalRegistry {
         return null;
     }
 
+    /** Finds a pending player whose stored name exactly matches (dot/case-insensitively), for admin lookups by name. */
+    public UUID findByStoredName(String name) {
+        String normalized = normalize(name);
+        for (Map.Entry<UUID, String> entry : pending.entrySet()) {
+            if (normalize(entry.getValue()).equals(normalized)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
     /**
      * Lowercases and strips dots, so a leading-dot Bedrock/Floodgate username
      * (e.g. ".Mrkumi1212") matches regardless of whether the dot is written in

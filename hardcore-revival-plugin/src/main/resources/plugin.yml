@@ -1,5 +1,5 @@
 name: HardcoreRevival
-version: '1.3.0'
+version: '1.4.0'
 main: com.hardcorerevival.plugin.HardcoreRevivalPlugin
 api-version: '26.2'
 author: HardcoreRevival
@@ -8,10 +8,13 @@ description: A ritual to bring a hardcore-dead player back from spectator - buil
 commands:
   hardcorerevival:
     description: Manage the HardcoreRevival plugin
-    usage: /<command> reload
+    usage: /<command> <reload|clearpending <player>>
     aliases: [revival]
 
 permissions:
   hardcorerevival.reload:
     description: Allows reloading the HardcoreRevival configuration
+    default: op
+  hardcorerevival.clearpending:
+    description: Allows clearing a player's stale "awaiting revival" status
     default: op

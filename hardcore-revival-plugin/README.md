@@ -63,9 +63,19 @@ overkill.
 | `settings.sacrifice-window-seconds` | How long a sacrifice keeps an altar armed (default 60) |
 | `settings.ritual-block-loss-chance` | Per-block chance (0.0-1.0) for each Iron/Gold/Diamond Block near the fire to be struck and destroyed when the revival completes (default 0.3) |
 
+**If someone gets revived outside the ritual** (an op runs `/gamemode
+survival <player>` directly, for example), the plugin notices the next time
+that player's gamemode changes away from spectator and automatically clears
+their "awaiting revival" status, so a stale entry doesn't linger and keep
+treating an already-alive player as still dead. Since that only fires on the
+*next* gamemode change, an entry that's already stale (e.g. from before this
+version) needs a one-time manual clear - see `/hardcorerevival clearpending`
+below.
+
 ## Commands
 
 - `/hardcorerevival reload` (alias `/revival reload`, permission `hardcorerevival.reload`, default: op)
+- `/hardcorerevival clearpending <player>` (permission `hardcorerevival.clearpending`, default: op) - manually clears a player's "awaiting revival" status, for a stale/incorrect entry
 
 ## Building
 
@@ -77,7 +87,7 @@ on this repo's own `paper-api` module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`hardcore-revival-plugin/build/libs/HardcoreRevival-1.3.0.jar`.
+`hardcore-revival-plugin/build/libs/HardcoreRevival-1.4.0.jar`.
 
 Players awaiting revival are stored in
 `plugins/HardcoreRevival/pending.yml` and persist across restarts.
