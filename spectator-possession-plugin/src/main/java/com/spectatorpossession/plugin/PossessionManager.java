@@ -5,6 +5,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -35,6 +36,11 @@ public final class PossessionManager {
         return mobToPossessor.get(mob.getUniqueId());
     }
 
+    /** Possessor UUID -> possessed mob UUID, for iterating every active possession (e.g. the health-refresh task). */
+    public Map<UUID, UUID> getActivePossessions() {
+        return Collections.unmodifiableMap(possessorToMob);
+    }
+
     public void startPossessing(Player player, Mob mob) {
         possessorToMob.put(player.getUniqueId(), mob.getUniqueId());
         mobToPossessor.put(mob.getUniqueId(), player.getUniqueId());
@@ -47,6 +53,11 @@ public final class PossessionManager {
         // as a normal free-flying spectator; onMove() below then drags the mob along
         // with their real, unhijacked movement.
         player.teleport(mob.getEyeLocation());
+
+        // Sent immediately (not deferred), independent of the book/sidebar below, so
+        // it's a reliable in-game way to confirm which jar version is actually
+        // running - useful for ruling out a stale build when troubleshooting.
+        player.sendMessage(plugin.message("possess_started", plugin.getDescription().getVersion()));
 
         var abilities = plugin.getAbilityRegistry().getAbilities(mob.getType());
         // The book-open and scoreboard packets are unreliable if sent the same tick as

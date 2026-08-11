@@ -9,3 +9,4 @@ messages:
   possess_denied_taken: '&cSomeone else is already possessing that mob.'
   possess_released: '&fYou have released the mob.'
   possess_ended_death: '&cThe mob you were possessing died. You have been released.'
+  possess_started: '&dYou are now possessing this creature. &7(v%s)'

@@ -4,6 +4,7 @@ import com.spectatorpossession.plugin.commands.SpectatorPossessionCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ public final class SpectatorPossessionPlugin extends JavaPlugin {
 
     private PossessionManager possessionManager;
     private AbilityRegistry abilityRegistry;
+    private BukkitTask healthTask;
 
     @Override
     public void onEnable() {
@@ -25,10 +27,19 @@ public final class SpectatorPossessionPlugin extends JavaPlugin {
         abilityRegistry = new AbilityRegistry(this);
 
         getServer().getPluginManager().registerEvents(new PossessListener(this), this);
+        healthTask = getServer().getScheduler().runTaskTimer(this, new PossessionHealthTask(this), 10L, 10L);
 
         var command = getCommand("possess");
         if (command != null) {
             command.setExecutor(new SpectatorPossessionCommand(this));
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        if (healthTask != null) {
+            healthTask.cancel();
+            healthTask = null;
         }
     }
 

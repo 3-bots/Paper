@@ -34,9 +34,12 @@ public final class AbilitySidebar {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         String mobName = mob.getType().name().toLowerCase().replace('_', ' ');
-        int score = abilities.isEmpty() ? 2 : abilities.size() + 2;
+        String healthLine = ChatColor.RED + "❤ " + ChatColor.WHITE + formatHealth(mob.getHealth())
+                + ChatColor.GRAY + "/" + formatHealth(mob.getMaxHealth());
+        int score = abilities.isEmpty() ? 3 : abilities.size() + 3;
 
         objective.getScore(ChatColor.GRAY + mobName).setScore(score--);
+        objective.getScore(healthLine).setScore(score--);
         objective.getScore(" ").setScore(score--);
 
         if (abilities.isEmpty()) {
@@ -56,5 +59,9 @@ public final class AbilitySidebar {
         if (manager != null) {
             player.setScoreboard(manager.getMainScoreboard());
         }
+    }
+
+    private static String formatHealth(double value) {
+        return value == Math.floor(value) ? String.valueOf((int) value) : String.format("%.1f", value);
     }
 }

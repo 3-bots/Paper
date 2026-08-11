@@ -16,7 +16,14 @@ public final class ControlsBook {
 
     public static ItemStack build(Mob mob, List<AbilityDefinition> abilities) {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
-        BookMeta meta = (BookMeta) book.getItemMeta();
+        // A blind (BookMeta) cast here throws ClassCastException every time: the API's
+        // own javadoc warns instanceof/casting against the WritableBookMeta/BookMeta
+        // pair is unreliable due to "unusual inheritance" in the concrete
+        // implementations, cast or not. Checking instanceof BookMeta directly (not
+        // through its WritableBookMeta parent) is what actually works.
+        if (!(book.getItemMeta() instanceof BookMeta meta)) {
+            return book;
+        }
         String mobName = mob.getType().name().toLowerCase().replace('_', ' ');
 
         meta.setTitle("Possessing: " + mobName);
