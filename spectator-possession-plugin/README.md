@@ -37,7 +37,10 @@ Right-click a mob while in spectator mode to possess it:
 - **Swap hands (F)** or run `/possess release` to let go of the mob
   voluntarily - its AI comes back and the sidebar disappears. You stay
   wherever you were (right where the mob was), free to fly off as a
-  normal spectator again.
+  normal spectator again. Both are a guaranteed way out regardless of
+  internal state - even if something left you stuck watching through a
+  mob with nothing on record as possessed, release still clears it
+  instead of claiming "you aren't possessing anything."
 - Possession also ends automatically (with the same cleanup) if the mob
   dies, you leave spectator mode, or you disconnect.
 
@@ -75,4 +78,4 @@ module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`spectator-possession-plugin/build/libs/SpectatorPossession-1.2.2.jar`.
+`spectator-possession-plugin/build/libs/SpectatorPossession-1.2.3.jar`.

@@ -78,4 +78,28 @@ public final class PossessionManager {
             mob.setAI(true);
         }
     }
+
+    /**
+     * Releases the player no matter what state they're actually in - used by
+     * /possess release and swap-hands. Normally this is just stopPossessing(), but
+     * it also clears a lingering vanilla spectator-target camera lock even when our
+     * own tracking has nothing on record for them (e.g. state left over from an
+     * older build, a plugin reload mid-possession, or any other desync), so this
+     * command is always a reliable "get me out of here" instead of sometimes
+     * claiming "you aren't possessing anything" while the player is still stuck.
+     * Returns true if anything was actually released.
+     */
+    public boolean forceRelease(Player player) {
+        boolean released = isPossessing(player);
+        if (released) {
+            stopPossessing(player);
+        }
+
+        if (player.getSpectatorTarget() != null) {
+            player.setSpectatorTarget(null);
+            released = true;
+        }
+
+        return released;
+    }
 }

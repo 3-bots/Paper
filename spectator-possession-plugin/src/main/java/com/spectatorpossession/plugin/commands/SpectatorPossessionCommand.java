@@ -31,11 +31,10 @@ public final class SpectatorPossessionCommand implements CommandExecutor {
                 sender.sendMessage("Only players can use this command.");
                 return true;
             }
-            if (!plugin.getPossessionManager().isPossessing(player)) {
+            if (!plugin.getPossessionManager().forceRelease(player)) {
                 sender.sendMessage("You are not possessing anything.");
                 return true;
             }
-            plugin.getPossessionManager().stopPossessing(player);
             sender.sendMessage(plugin.message("possess_released"));
             return true;
         }

@@ -83,10 +83,9 @@ public final class PossessListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onSwapHands(PlayerSwapHandItemsEvent event) {
         Player player = event.getPlayer();
-        if (!plugin.getPossessionManager().isPossessing(player)) {
+        if (!plugin.getPossessionManager().forceRelease(player)) {
             return;
         }
-        plugin.getPossessionManager().stopPossessing(player);
         player.sendMessage(plugin.message("possess_released"));
         event.setCancelled(true);
     }
