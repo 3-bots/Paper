@@ -1,0 +1,1 @@
+include(":spectator-possession-plugin")

@@ -1,0 +1,16 @@
+name: SpectatorPossession
+version: '1.0.0'
+main: com.spectatorpossession.plugin.SpectatorPossessionPlugin
+api-version: '26.2'
+author: SpectatorPossession
+description: Lets spectators right-click a mob to actually control it and use its abilities, instead of just viewing through it.
+
+commands:
+  possess:
+    description: Manage mob possession
+    usage: /<command> <release|reload>
+
+permissions:
+  spectatorpossession.reload:
+    description: Allows reloading the SpectatorPossession configuration
+    default: op

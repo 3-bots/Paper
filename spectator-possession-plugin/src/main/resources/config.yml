@@ -1,0 +1,12 @@
+settings:
+  # Whether a possessed creeper's explosion (triggered by sneaking) breaks
+  # blocks. The explosion always damages/knocks back nearby entities either way.
+  creeper-explosion-breaks-blocks: false
+
+messages:
+  prefix: '&7[&5Possession&7]'
+  possess_started: '&fYou are now possessing a %s. Sneak to use its ability, swap hands to release.'
+  possess_denied_taken: '&cSomeone else is already possessing that mob.'
+  possess_released: '&fYou have released the mob.'
+  possess_no_ability: '&7This mob has no special ability.'
+  possess_ended_death: '&cThe mob you were possessing died. You have been released.'
