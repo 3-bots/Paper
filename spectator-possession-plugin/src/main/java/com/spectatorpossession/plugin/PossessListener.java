@@ -9,10 +9,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import java.util.UUID;
 
@@ -60,10 +60,7 @@ public final class PossessListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onSneak(PlayerToggleSneakEvent event) {
-        if (!event.isSneaking()) {
-            return;
-        }
+    public void onItemHeld(PlayerItemHeldEvent event) {
         Player player = event.getPlayer();
         UUID mobId = plugin.getPossessionManager().getPossessedMobId(player);
         if (mobId == null) {
@@ -75,12 +72,12 @@ public final class PossessListener implements Listener {
             return;
         }
 
-        var ability = plugin.getAbilityRegistry().get(mob.getType());
+        int pressedKey = event.getNewSlot() + 1;
+        var ability = plugin.getAbilityRegistry().getAbility(mob.getType(), pressedKey);
         if (ability == null) {
-            player.sendMessage(plugin.message("possess_no_ability"));
             return;
         }
-        ability.trigger(player, mob);
+        ability.action().trigger(player, mob);
     }
 
     @EventHandler(ignoreCancelled = true)

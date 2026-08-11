@@ -41,8 +41,8 @@ public final class PossessionManager {
         mob.setAI(false);
         player.setSpectatorTarget(mob);
 
-        String type = mob.getType().name().toLowerCase().replace('_', ' ');
-        player.sendMessage(plugin.message("possess_started", type));
+        var abilities = plugin.getAbilityRegistry().getAbilities(mob.getType());
+        player.openBook(ControlsBook.build(mob, abilities));
     }
 
     /** Clears possession state, restores the mob's AI if it's still alive, and resets the player's camera. */

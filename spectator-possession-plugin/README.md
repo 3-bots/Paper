@@ -13,11 +13,12 @@ Right-click a mob while in spectator mode to possess it:
 - Unlike vanilla, the mob now **follows your flight exactly** - fly around
   as a spectator and the mob moves with you, so you're effectively
   steering it wherever you go.
-- **Sneak** to trigger the mob's special ability, if it has one. Right now
-  only Creeper is wired up: sneaking makes it explode immediately
-  (damages/knocks back nearby entities; only breaks blocks if
-  `settings.creeper-explosion-breaks-blocks` is true) and removes the
-  creeper, releasing you back to free spectating.
+- A book pops open immediately, listing every ability that mob has and
+  which number key (1-4) triggers each one. Right now only Creeper is
+  wired up: key **1** detonates it immediately (damages/knocks back
+  nearby entities; only breaks blocks if
+  `settings.creeper-explosion-breaks-blocks` is true), which also
+  releases you back to free spectating since the creeper is gone.
 - **Swap hands (F)** or run `/possess release` to let go of the mob
   voluntarily - its AI comes back and your camera returns to normal.
 - Possession also ends automatically if the mob dies, you leave spectator
@@ -27,9 +28,11 @@ Only one player can possess a given mob at a time.
 
 ## Adding more mob abilities
 
-`AbilityRegistry` maps `EntityType` to a `MobAbility` implementation - add
-a new class implementing that interface (see `CreeperExplodeAbility` for
-an example) and register it there.
+`AbilityRegistry` maps `EntityType` to a list of `AbilityDefinition`s, each
+bound to a hotbar key (1-4) with a name and description shown in the
+popup book. Add a new `MobAbility` implementation (see
+`CreeperExplodeAbility` for an example) and register it with a free slot
+number for that mob type.
 
 ## Configuration (`config.yml`)
 
@@ -52,4 +55,4 @@ module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`spectator-possession-plugin/build/libs/SpectatorPossession-1.0.0.jar`.
+`spectator-possession-plugin/build/libs/SpectatorPossession-1.1.0.jar`.
