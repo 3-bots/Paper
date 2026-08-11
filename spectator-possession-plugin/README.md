@@ -24,10 +24,12 @@ Right-click a mob while in spectator mode to possess it:
   uniformly - a possessed spider can go up walls and across ceilings, a
   blaze can hover in midair, an ender dragon can fly, all the same way,
   because nothing is stopping any of them from going anywhere you fly.
-- A book pops open immediately, and a **sidebar** (top-right of your
-  screen) stays up the whole time you're possessing, both listing every
-  ability that mob has and which hotbar key (1-9, not just 1-4 - however
-  many a mob has) triggers each one. Right now only Creeper is wired up:
+- A book pops open a tick after you possess it (deferred slightly so the
+  book-open and scoreboard packets don't land the same tick as the
+  teleport above - the client silently drops them if they do), and a
+  **sidebar** (top-right of your screen) stays up the whole time you're
+  possessing, both listing every ability that mob has and which hotbar
+  key (1-9, not just 1-4 - however many a mob has) triggers each one. Right now only Creeper is wired up:
   key **1** detonates it immediately (damages/knocks back nearby
   entities; only breaks blocks if `settings.creeper-explosion-breaks-blocks`
   is true), which also releases you back to free spectating since the
@@ -73,4 +75,4 @@ module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`spectator-possession-plugin/build/libs/SpectatorPossession-1.2.1.jar`.
+`spectator-possession-plugin/build/libs/SpectatorPossession-1.2.2.jar`.

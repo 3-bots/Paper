@@ -1,5 +1,6 @@
 package com.spectatorpossession.plugin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -48,8 +49,18 @@ public final class PossessionManager {
         player.teleport(mob.getEyeLocation());
 
         var abilities = plugin.getAbilityRegistry().getAbilities(mob.getType());
-        player.openBook(ControlsBook.build(mob, abilities));
-        AbilitySidebar.show(player, mob, abilities);
+        // The book-open and scoreboard packets are unreliable if sent the same tick as
+        // the teleport above - the client is still mid-processing the teleport
+        // confirmation and silently drops them. Deferring by one tick is the standard
+        // fix and makes both show up every time.
+        UUID mobId = mob.getUniqueId();
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            if (!mobId.equals(getPossessedMobId(player)) || !mob.isValid()) {
+                return;
+            }
+            player.openBook(ControlsBook.build(mob, abilities));
+            AbilitySidebar.show(player, mob, abilities);
+        });
     }
 
     /** Clears possession state, restores the mob's AI if it's still alive, and hides the player's sidebar. */
