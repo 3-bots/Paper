@@ -1,9 +1,9 @@
 name: SpectatorPossession
-version: '1.5.0'
+version: '2.0.0'
 main: com.spectatorpossession.plugin.SpectatorPossessionPlugin
 api-version: '26.2'
 author: SpectatorPossession
-description: Lets spectators left-click (attack) a mob to actually control it and use its abilities, instead of just viewing through it.
+description: Lets spectators left-click (attack) a mob to possess it (disguised as an invisible Creative-mode player) - native movement, combat, and abilities.
 
 commands:
   possess:
