@@ -2,7 +2,6 @@ package com.simplehomes.plugin.commands;
 
 import com.simplehomes.plugin.SimpleHomesPlugin;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,16 +43,6 @@ public final class TpaCommand implements CommandExecutor {
 
         if (target.equals(player)) {
             player.sendMessage(plugin.message("tpa_self"));
-            return true;
-        }
-
-        if (player.getGameMode() == GameMode.SPECTATOR) {
-            player.sendMessage(plugin.message("tpa_spectator_self"));
-            return true;
-        }
-
-        if (target.getGameMode() == GameMode.SPECTATOR) {
-            player.sendMessage(plugin.message("tpa_spectator_target", target.getName()));
             return true;
         }
 

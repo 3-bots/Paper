@@ -3,7 +3,6 @@ package com.simplehomes.plugin.commands;
 import com.simplehomes.plugin.SimpleHomesPlugin;
 import com.simplehomes.plugin.TpaManager;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -45,12 +44,6 @@ public final class TpAcceptCommand implements CommandExecutor {
 
         Player moving = pending.here() ? player : requester;
         Player staying = pending.here() ? requester : player;
-
-        if (moving.getGameMode() == GameMode.SPECTATOR || staying.getGameMode() == GameMode.SPECTATOR) {
-            moving.sendMessage(plugin.message("tpa_spectator_cancelled"));
-            staying.sendMessage(plugin.message("tpa_spectator_cancelled"));
-            return true;
-        }
 
         moving.sendMessage(plugin.message("tpa_accepted_moving", staying.getName()));
         staying.sendMessage(plugin.message("tpa_accepted_waiting", moving.getName()));

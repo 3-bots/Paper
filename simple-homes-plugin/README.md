@@ -52,19 +52,12 @@ never). Accepted teleports go through the same delay-and-cancel-on-move
 behavior as `/home`. Permission `simplehomes.tpa` (default: true) gates
 all four tpa commands.
 
-Teleport requests involving anyone in spectator mode are blocked - a
-spectator can't send `/tpa`/`/tpahere`, and nobody can target a spectator
-with either command. This is re-checked again at `/tpaccept` time too, in
-case someone's gamemode changed while the request was pending (e.g. they
-died and went into spectator, or came back from a hardcore revival), so a
-spectator can never end up teleported to or from - and can't use TPA to
-land next to another player and read their coordinates off the F3 screen.
+`/tpa`/`/tpahere` work normally for and to players in spectator mode too.
 
-Separately, vanilla Minecraft's own spectator-menu teleport (clicking a
-player's name in the tab/player list while in spectator mode, which jumps
-you straight to their location) is also blocked outright - that's a
-built-in client feature, not a command, so it would otherwise let a
-spectator see someone else's coordinates with no TPA involved at all.
+Vanilla Minecraft's own spectator-menu teleport (clicking a player's name
+in the tab/player list while in spectator mode, which jumps you straight
+to their location) is blocked outright, separately from TPA - that's a
+built-in client feature, not a command.
 
 Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 
@@ -74,7 +67,7 @@ Permission `simplehomes.bypasscost` (default: op) skips the resource charge.
 ./gradlew build
 ```
 
-Jar output: `build/libs/SimpleHomes-1.2.7.jar`.
+Jar output: `build/libs/SimpleHomes-1.2.8.jar`.
 
 Homes are stored per-player under `plugins/SimpleHomes/playerdata/<uuid>.yml`
 and persist across restarts.
