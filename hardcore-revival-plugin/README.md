@@ -20,7 +20,12 @@ doesn't matter, just that everything is present within range of the fire.
 **Write the name.** Write the dead player's name somewhere in a book
 (Book and Quill or a signed book both work). Once you're holding it near
 a complete altar and the name matches someone currently awaiting revival,
-the book's display name turns red as confirmation.
+the book's display name turns red as confirmation, and the sky itself
+tints red for you too - it clears back to normal the moment you and the
+book move away from the altar, or the name stops matching (e.g. once the
+ritual finishes). Matching ignores dots on either side of the name, so a
+Bedrock player whose Java name is Floodgate-prefixed (like
+`.Mrkumi1212`) matches whether or not you type the dot.
 
 **Sacrifice a villager.** Kill a villager within `altar-radius` of a
 complete altar. Particles stream from where it died into the fire, and
@@ -65,7 +70,7 @@ on this repo's own `paper-api` module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`hardcore-revival-plugin/build/libs/HardcoreRevival-1.1.0.jar`.
+`hardcore-revival-plugin/build/libs/HardcoreRevival-1.2.0.jar`.
 
 Players awaiting revival are stored in
 `plugins/HardcoreRevival/pending.yml` and persist across restarts.

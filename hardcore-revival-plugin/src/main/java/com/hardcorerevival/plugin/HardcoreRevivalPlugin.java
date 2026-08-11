@@ -27,6 +27,7 @@ public final class HardcoreRevivalPlugin extends JavaPlugin {
     private EssenceEffect essenceEffect;
     private AltarConsumption altarConsumption;
     private BukkitTask glowTask;
+    private BookGlowTask bookGlowTask;
 
     @Override
     public void onEnable() {
@@ -86,13 +87,18 @@ public final class HardcoreRevivalPlugin extends JavaPlugin {
     }
 
     private void startGlowTask() {
-        glowTask = getServer().getScheduler().runTaskTimer(this, new BookGlowTask(this), 10L, 10L);
+        bookGlowTask = new BookGlowTask(this);
+        glowTask = getServer().getScheduler().runTaskTimer(this, bookGlowTask, 10L, 10L);
     }
 
     private void stopGlowTask() {
         if (glowTask != null) {
             glowTask.cancel();
             glowTask = null;
+        }
+        if (bookGlowTask != null) {
+            bookGlowTask.clearAllRedSky();
+            bookGlowTask = null;
         }
     }
 

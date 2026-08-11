@@ -42,13 +42,22 @@ public final class PendingRevivalRegistry {
 
     /** Finds a pending player whose name appears anywhere in the given text (e.g. a ritual book's pages). */
     public UUID findMatchingName(String text) {
-        String lower = text.toLowerCase();
+        String normalizedText = normalize(text);
         for (Map.Entry<UUID, String> entry : pending.entrySet()) {
-            if (lower.contains(entry.getValue().toLowerCase())) {
+            if (normalizedText.contains(normalize(entry.getValue()))) {
                 return entry.getKey();
             }
         }
         return null;
+    }
+
+    /**
+     * Lowercases and strips dots, so a leading-dot Bedrock/Floodgate username
+     * (e.g. ".Mrkumi1212") matches regardless of whether the dot is written in
+     * the book or not, on either side of the comparison.
+     */
+    private static String normalize(String value) {
+        return value.toLowerCase().replace(".", "");
     }
 
     private void load() {
