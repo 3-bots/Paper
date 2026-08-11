@@ -1,12 +1,12 @@
 package com.spectatorpossession.plugin;
 
+import com.destroystokyo.paper.event.player.PlayerStartSpectatingEntityEvent;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
@@ -24,15 +24,22 @@ public final class PossessListener implements Listener {
         this.plugin = plugin;
     }
 
+    /**
+     * Left-clicking (attacking) an entity while in spectator mode is vanilla's own
+     * built-in trigger for camera-locking onto it (Player#setSpectatorTarget) - it
+     * doesn't go through PlayerInteractEntityEvent or EntityDamageByEntityEvent at
+     * all, which is why both of those were unreliable triggers for possession.
+     * This Paper-specific event fires right as that vanilla camera-lock is about
+     * to happen and is cancellable, so this intercepts it and starts real
+     * possession instead of vanilla's passive view-only spectate.
+     */
     @EventHandler(ignoreCancelled = true)
-    public void onAttackEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player player)) {
-            return;
-        }
+    public void onStartSpectating(PlayerStartSpectatingEntityEvent event) {
+        Player player = event.getPlayer();
         if (player.getGameMode() != GameMode.SPECTATOR) {
             return;
         }
-        if (!(event.getEntity() instanceof Mob mob)) {
+        if (!(event.getNewSpectatorTarget() instanceof Mob mob)) {
             return;
         }
 

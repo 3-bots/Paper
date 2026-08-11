@@ -6,7 +6,13 @@ actually controlling it.
 
 ## What it does
 
-Left-click (attack) a mob while in spectator mode to possess it:
+Left-click (attack) a mob while in spectator mode to possess it. Vanilla
+already binds left-click on any entity, while spectating, to its own
+built-in "look through its eyes" camera-lock (`Player#setSpectatorTarget`) -
+that's a real client/server feature, not something this plugin has to
+invent a trigger for. This intercepts it via Paper's
+`PlayerStartSpectatingEntityEvent` (cancellable, fires right before vanilla's
+camera-lock would kick in) instead of the passive vanilla behavior:
 
 - The mob's own AI is disabled and you're teleported right into its eye
   spot as a normal free-flying spectator. This deliberately does **not**
@@ -83,4 +89,4 @@ module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`spectator-possession-plugin/build/libs/SpectatorPossession-1.3.1.jar`.
+`spectator-possession-plugin/build/libs/SpectatorPossession-1.3.2.jar`.
