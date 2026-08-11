@@ -6,9 +6,9 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -25,14 +25,19 @@ public final class PossessListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onInteractEntity(PlayerInteractEntityEvent event) {
-        Player player = event.getPlayer();
+    public void onAttackEntity(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Player player)) {
+            return;
+        }
         if (player.getGameMode() != GameMode.SPECTATOR) {
             return;
         }
-        if (!(event.getRightClicked() instanceof Mob mob)) {
+        if (!(event.getEntity() instanceof Mob mob)) {
             return;
         }
+
+        event.setCancelled(true);
+
         if (plugin.getPossessionManager().isPossessing(player)) {
             return;
         }
@@ -42,7 +47,6 @@ public final class PossessListener implements Listener {
         }
 
         plugin.getPossessionManager().startPossessing(player, mob);
-        event.setCancelled(true);
     }
 
     @EventHandler(ignoreCancelled = true)

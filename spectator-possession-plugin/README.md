@@ -6,7 +6,7 @@ actually controlling it.
 
 ## What it does
 
-Right-click a mob while in spectator mode to possess it:
+Left-click (attack) a mob while in spectator mode to possess it:
 
 - The mob's own AI is disabled and you're teleported right into its eye
   spot as a normal free-flying spectator. This deliberately does **not**
@@ -83,4 +83,4 @@ module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`spectator-possession-plugin/build/libs/SpectatorPossession-1.3.0.jar`.
+`spectator-possession-plugin/build/libs/SpectatorPossession-1.3.1.jar`.
