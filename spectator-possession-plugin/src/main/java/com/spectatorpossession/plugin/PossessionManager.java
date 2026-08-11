@@ -46,12 +46,13 @@ public final class PossessionManager {
         mobToPossessor.put(mob.getUniqueId(), player.getUniqueId());
 
         mob.setAI(false);
-        // Deliberately not using Player#setSpectatorTarget here: vanilla's camera-lock
-        // takes over input handling client-side, so the possessor's own WASD stops
-        // producing PlayerMoveEvents entirely - they'd be a passive viewer with no
-        // control, not a possessor. Instead, drop them right into the mob's eye spot
-        // as a normal free-flying spectator; onMove() below then drags the mob along
-        // with their real, unhijacked movement.
+        // Real vanilla behavior: Player#setSpectatorTarget's camera-lock auto-releases
+        // the instant the possessor moves - it's not that WASD is disabled, it's that
+        // moving un-attaches the camera and reverts to free spectating. Rather than
+        // avoid the lock (losing the true through-its-eyes view), onMove() below keeps
+        // re-applying it every time it breaks, while still using the possessor's real,
+        // never-actually-blocked movement to drag the mob along. Teleporting them into
+        // the mob's eye spot first gets the initial view aligned before that kicks in.
         player.teleport(mob.getEyeLocation());
 
         // Sent immediately (not deferred), independent of the book/sidebar below, so
@@ -69,6 +70,7 @@ public final class PossessionManager {
             if (!mobId.equals(getPossessedMobId(player)) || !mob.isValid()) {
                 return;
             }
+            player.setSpectatorTarget(mob);
             player.openBook(ControlsBook.build(mob, abilities));
             AbilitySidebar.show(player, mob, abilities);
         });

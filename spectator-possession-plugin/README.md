@@ -15,21 +15,31 @@ invent a trigger for. This intercepts it via Paper's
 camera-lock would kick in) instead of the passive vanilla behavior:
 
 - The mob's own AI is disabled and you're teleported right into its eye
-  spot as a normal free-flying spectator. This deliberately does **not**
-  use vanilla's `Player#setSpectatorTarget` camera-lock ("view through an
-  entity") - that hijacks input client-side so your own WASD stops moving
-  anything at all, which is real vanilla behavior, not a bug in the
-  possession-target mob, and it's why an earlier build of this plugin left
-  you stuck passively watching through the mob's eyes with no control.
-  Staying a normal spectator means your movement keeps working exactly as
-  it always does.
-- The mob **follows your flight exactly** - fly around as a spectator and
-  the mob moves with you, so you're effectively steering it wherever you
-  go. Since this is direct position-following with none of the mob's
+  spot. Your camera then genuinely locks onto the mob via vanilla's own
+  `Player#setSpectatorTarget` - you see exactly what it sees. Vanilla
+  normally auto-releases that lock the instant you move (that's the real
+  mechanism behind the classic "spectating is view-only" behavior - not
+  that WASD gets disabled, just that moving detaches the camera), so this
+  re-applies the lock every single time it slips, every move tick,
+  keeping the through-its-eyes view effectively permanent while your
+  movement input itself was never actually blocked.
+- The mob **follows your flight exactly** - fly around and the mob moves
+  with you (and turns to face wherever you're looking), so you're
+  effectively steering it wherever you go while watching through its own
+  eyes. Since this is direct position-following with none of the mob's
   normal movement constraints, this already covers every movement style
   uniformly - a possessed spider can go up walls and across ceilings, a
   blaze can hover in midair, an ender dragon can fly, all the same way,
   because nothing is stopping any of them from going anywhere you fly.
+  Flying through water looks and feels right too, since the underwater
+  tint is tied to camera position, not gamemode.
+- **Left-click something else while already possessing to attack with the
+  mob** - spectators can never deal damage themselves (blocked before any
+  Bukkit event would fire), so this reuses the same spectate-click event:
+  once you're already possessing, clicking another entity deals damage
+  from the mob to it instead of trying to switch targets, using the mob's
+  own `Attribute.ATTACK_DAMAGE` (a flat 1.0 for mobs without one, e.g.
+  possessing a passive animal).
 - You immediately get a chat message confirming possession (includes the
   plugin's version number - a quick way to check you're actually running
   the jar you think you are). A book pops open a tick later (deferred
@@ -89,4 +99,4 @@ module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`spectator-possession-plugin/build/libs/SpectatorPossession-1.3.2.jar`.
+`spectator-possession-plugin/build/libs/SpectatorPossession-1.4.0.jar`.

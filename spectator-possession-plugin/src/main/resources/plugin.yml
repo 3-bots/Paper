@@ -1,5 +1,5 @@
 name: SpectatorPossession
-version: '1.3.2'
+version: '1.4.0'
 main: com.spectatorpossession.plugin.SpectatorPossessionPlugin
 api-version: '26.2'
 author: SpectatorPossession
