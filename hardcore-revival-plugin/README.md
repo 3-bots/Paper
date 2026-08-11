@@ -70,7 +70,7 @@ on this repo's own `paper-api` module. Build from the **repo root**:
 ```
 
 Requires JDK 25. Jar output:
-`hardcore-revival-plugin/build/libs/HardcoreRevival-1.2.0.jar`.
+`hardcore-revival-plugin/build/libs/HardcoreRevival-1.2.1.jar`.
 
 Players awaiting revival are stored in
 `plugins/HardcoreRevival/pending.yml` and persist across restarts.

@@ -1,5 +1,5 @@
 name: HardcoreRevival
-version: '1.2.0'
+version: '1.2.1'
 main: com.hardcorerevival.plugin.HardcoreRevivalPlugin
 api-version: '26.2'
 author: HardcoreRevival
